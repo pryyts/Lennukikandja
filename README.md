@@ -1,0 +1,1 @@
+Õppimise eesmärgil loodud rakendus
