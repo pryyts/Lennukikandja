@@ -333,21 +333,21 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 const images = {
-  "USS Gerald R. Ford (CVN-78)": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/USS_Gerald_R._Ford_%28CVN-78%29_underway_in_the_Atlantic_Ocean_on_9_October_2022_%28221009-N-TL968-1248%29.JPG/640px-USS_Gerald_R._Ford_%28CVN-78%29_underway_in_the_Atlantic_Ocean_on_9_October_2022_%28221009-N-TL968-1248%29.JPG",
-  "USS Nimitz (CVN-68) ja teised Nimitzi klassi laevad": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/USS_Nimitz_%28CVN-68%29.jpg/640px-USS_Nimitz_%28CVN-68%29.jpg",
-  "Fujian": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/PLAN_CV-18_Fujian_20250911.jpg/640px-PLAN_CV-18_Fujian_20250911.jpg",
-  "Shandong": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Chinese_aircraft_carrier_Shandong_in_2019.jpg/640px-Chinese_aircraft_carrier_Shandong_in_2019.jpg",
-  "HMS Queen Elizabeth (R08)": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/HMS_Queen_Elizabeth_in_Gibraltar_-_2018_%2828386226189%29.jpg/640px-HMS_Queen_Elizabeth_in_Gibraltar_-_2018_%2828386226189%29.jpg",
-  "HMS Prince of Wales (R09)": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/VX-23_F-35B_approaches_HMS_Prince_of_Wales.jpg/640px-VX-23_F-35B_approaches_HMS_Prince_of_Wales.jpg",
-  "Liaoning": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Aircraft_Carrier_Liaoning_CV-16.jpg/640px-Aircraft_Carrier_Liaoning_CV-16.jpg",
-  "Admiral Kuznetsov": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/MilitarySportsHoliday2017-03.jpg/640px-MilitarySportsHoliday2017-03.jpg",
-  "INS Vikramaditya": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/INS_Vikramaditya_%28R33%29_with_a_Sea_Harrier.jpg/640px-INS_Vikramaditya_%28R33%29_with_a_Sea_Harrier.jpg",
-  "INS Vikrant": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/IAC1_Vikrant_at_Cochin.jpg/640px-IAC1_Vikrant_at_Cochin.jpg",
-  "Charles de Gaulle (R91)": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/French_aircraft_carrier_Charles_de_Gaulle_%28R91%29_underway_in_the_Ionian_Sea_on_17_March_2022_%28220317-N-DH793-1322%29cropped.JPG/640px-French_aircraft_carrier_Charles_de_Gaulle_%28R91%29_underway_in_the_Ionian_Sea_on_17_March_2022_%28220317-N-DH793-1322%29cropped.JPG",
+  "USS Gerald R. Ford (CVN-78)": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/USS_Gerald_R._Ford_%28CVN-78%29_underway_in_the_Atlantic_Ocean_on_9_October_2022_%28221009-N-TL968-1248%29.JPG/960px-USS_Gerald_R._Ford_%28CVN-78%29_underway_in_the_Atlantic_Ocean_on_9_October_2022_%28221009-N-TL968-1248%29.JPG",
+  "USS Nimitz (CVN-68) ja teised Nimitzi klassi laevad": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/USS_Nimitz_%28CVN-68%29.jpg/960px-USS_Nimitz_%28CVN-68%29.jpg",
+  "Fujian": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/PLAN_CV-18_Fujian_20250911.jpg/960px-PLAN_CV-18_Fujian_20250911.jpg",
+  "Shandong": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Chinese_aircraft_carrier_Shandong_in_2019.jpg/960px-Chinese_aircraft_carrier_Shandong_in_2019.jpg",
+  "HMS Queen Elizabeth (R08)": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/HMS_Queen_Elizabeth_in_Gibraltar_-_2018_%2828386226189%29.jpg/960px-HMS_Queen_Elizabeth_in_Gibraltar_-_2018_%2828386226189%29.jpg",
+  "HMS Prince of Wales (R09)": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/VX-23_F-35B_approaches_HMS_Prince_of_Wales.jpg/960px-VX-23_F-35B_approaches_HMS_Prince_of_Wales.jpg",
+  "Liaoning": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Aircraft_Carrier_Liaoning_CV-16.jpg/960px-Aircraft_Carrier_Liaoning_CV-16.jpg",
+  "Admiral Kuznetsov": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/MilitarySportsHoliday2017-03.jpg/960px-MilitarySportsHoliday2017-03.jpg",
+  "INS Vikramaditya": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/INS_Vikramaditya_%28R33%29_with_a_Sea_Harrier.jpg/960px-INS_Vikramaditya_%28R33%29_with_a_Sea_Harrier.jpg",
+  "INS Vikrant": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/IAC1_Vikrant_at_Cochin.jpg/960px-IAC1_Vikrant_at_Cochin.jpg",
+  "Charles de Gaulle (R91)": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/French_aircraft_carrier_Charles_de_Gaulle_%28R91%29_underway_in_the_Ionian_Sea_on_17_March_2022_%28220317-N-DH793-1322%29cropped.JPG/960px-French_aircraft_carrier_Charles_de_Gaulle_%28R91%29_underway_in_the_Ionian_Sea_on_17_March_2022_%28220317-N-DH793-1322%29cropped.JPG",
   "ITS Trieste (L9890)": "https://upload.wikimedia.org/wikipedia/commons/3/34/Italian_LHD_Trieste.jpg",
-  "ITS Cavour (C550)": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Cavour_%28550%29.jpg/640px-Cavour_%28550%29.jpg",
-  "JS Izumo (DDH-183)": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/JS_Izumo%EF%BC%88DDH-183%EF%BC%89seen_from_the_sky_10-03-2021.jpg/640px-JS_Izumo%EF%BC%88DDH-183%EF%BC%89seen_from_the_sky_10-03-2021.jpg",
-  "JS Kaga (DDH-184)": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/JS_Kaga%EF%BC%88DDH-184%EF%BC%89after_renovation.jpg/640px-JS_Kaga%EF%BC%88DDH-184%EF%BC%89after_renovation.jpg"
+  "ITS Cavour (C550)": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Cavour_%28550%29.jpg/960px-Cavour_%28550%29.jpg",
+  "JS Izumo (DDH-183)": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/JS_Izumo%EF%BC%88DDH-183%EF%BC%89seen_from_the_sky_10-03-2021.jpg/960px-JS_Izumo%EF%BC%88DDH-183%EF%BC%89seen_from_the_sky_10-03-2021.jpg",
+  "JS Kaga (DDH-184)": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/JS_Kaga%EF%BC%88DDH-184%EF%BC%89after_renovation.jpg/960px-JS_Kaga%EF%BC%88DDH-184%EF%BC%89after_renovation.jpg"
 };
 
 const ships = [
