@@ -140,6 +140,65 @@
   .carrier-dot:hover{
     transform:scale(1.15);
   }
+  .submarine-dot{
+    width:14px;height:14px;
+    border-radius:0;
+    background:var(--navy-900);
+    border:2px solid #fff;
+    box-shadow:0 0 0 4px rgba(11,27,51,0.25);
+    cursor:pointer;
+    transition:transform 0.15s ease;
+    transform:rotate(45deg);
+  }
+  .submarine-dot:hover{
+    transform:rotate(45deg) scale(1.15);
+  }
+  .ship-tabs{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 24px;
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--border);
+  }
+  .ship-tab{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--text-faint);
+    background:transparent;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:10px 4px;
+    margin-right:24px;
+    cursor:pointer;
+    transition:color 0.12s ease, border-color 0.12s ease;
+  }
+  .ship-tab:hover{
+    color:var(--text);
+  }
+  .ship-tab.active{
+    color:var(--text);
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .ship-tab .swatch{
+    width:11px;height:11px;
+    display:inline-block;
+    flex:none;
+  }
+  .ship-tab .swatch.carrier{
+    border-radius:50%;
+    background:var(--accent);
+  }
+  .ship-tab .swatch.submarine{
+    background:var(--navy-900);
+    transform:rotate(45deg);
+  }
   .leaflet-popup-content-wrapper{
     border-radius:var(--radius);
     background:var(--surface);
@@ -321,24 +380,41 @@
 
 <header class="hero">
   <div class="eyebrow">Merevägi &middot; Sõjalaevastik</div>
-  <h1>Maailma lennukikandjad kaardil</h1>
-  <p>Iga sinine punkt tähistab üht lennukikandjat tema kodusadama juures. Klõpsa punktil, et näha selle laeva pilti ja andmeid, või keri alla täieliku ülevaate saamiseks.</p>
+  <h1 id="pageTitle">50 suurimat lennukikandjat ja allveelaeva maailmas</h1>
+  <p id="pageIntro">Iga punkt tähistab üht laeva tema kodusadama juures. Klõpsa punktil, et näha selle laeva pilti ja andmeid, või keri alla täieliku ülevaate saamiseks.</p>
 </header>
+
+<div class="ship-tabs" role="tablist">
+  <button type="button" class="ship-tab active" data-type="carrier" role="tab" aria-selected="true"><span class="swatch carrier"></span>Lennukikandjad</button>
+  <button type="button" class="ship-tab" data-type="submarine" role="tab" aria-selected="false"><span class="swatch submarine"></span>Allveelaevad</button>
+</div>
 
 <section class="map-wrap">
   <div id="map"></div>
 </section>
 
-<section class="legend" id="legend"></section>
+<div id="carrierView">
+  <section class="legend" id="legend"></section>
 
-<main class="detail">
-  <h2>Kõik lennukikandjad riikide kaupa</h2>
-  <p class="hint">Andmed: Lennukikandjad/lennukikandjad.json &middot; Pildid: Wikimedia Commons</p>
-  <div id="allGroups"></div>
-</main>
+  <main class="detail">
+    <h2>Kõik lennukikandjad riikide kaupa</h2>
+    <p class="hint">Andmed: Lennukikandjad/lennukikandjad.json &middot; Pildid: Wikimedia Commons</p>
+    <div id="allGroups"></div>
+  </main>
+</div>
+
+<div id="submarineView" style="display:none;">
+  <section class="legend" id="subLegend"></section>
+
+  <main class="detail">
+    <h2>Kõik allveelaevad riikide kaupa</h2>
+    <p class="hint">Andmed: Lennukikandjad/allveelaevad.json &middot; Pildid: Wikimedia Commons &middot; Kodusadam on teadaolev/avalik viimane info, mitte reaalajas asukoht</p>
+    <div id="allSubGroups"></div>
+  </main>
+</div>
 
 <footer>
-  Andmed: <code>lennukikandjad.json</code>. Pildiallikas: Wikimedia Commons / Wikipedia (avalik litsentsitud sisu).
+  Andmed: <code>lennukikandjad.json</code>, <code>allveelaevad.json</code>. Pildiallikas: Wikimedia Commons / Wikipedia (avalik litsentsitud sisu).
   Disainisüsteem: <a href="NavyDisain.md">NavyDisain.md</a> v1.0.
 </footer>
 
@@ -397,6 +473,59 @@ const ships = [
   {"Nimi":"ROKS Marado","Riik":"Lõuna-Korea","Veeväljasurve":"~19 000 tonni (täislastis)","Relvastus":"RIM-116 RAM raketiheitja, Goalkeeper CIWS, kuni 15 helikopterit","Klass":"Dokdo klass","lat":35.12,"lng":129.03,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/ROKS_Marado_exercising_with_US_helicopters_in_June_2022.jpg/960px-ROKS_Marado_exercising_with_US_helicopters_in_June_2022.jpg"}
 ];
 
+const submarines = [
+  {"Nimi":"Dmitri Donskoi (TK-208)","Riik":"Venemaa","Kodusadam":"Severodvinsk (Zvjozdotška laevatehas)","Veeväljasurve":"~48 000 tonni (sukeldunult)","Relvastus":"20× R-39 ballistilist raketti (algselt), torpeedotorud — praegu katseplatvorm","Klass":"Tüfuuni klass (Projekt 941 Akula)","lat":64.56,"lng":39.83,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/%C2%AB%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9_%D0%94%D0%BE%D0%BD%D1%81%D0%BA%D0%BE%D0%B9%C2%BB.jpg/960px-%C2%AB%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9_%D0%94%D0%BE%D0%BD%D1%81%D0%BA%D0%BE%D0%B9%C2%BB.jpg"},
+  {"Nimi":"Juri Dolgoruki","Riik":"Venemaa","Kodusadam":"Gadžijevo (Põhjalaevastik)","Veeväljasurve":"~24 000 tonni (sukeldunult)","Relvastus":"16× RSM-56 Bulava ballistilist raketti, torpeedotorud","Klass":"Borei klass (Projekt 955)","lat":69.25,"lng":33.33,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/%C2%AB%D0%AE%D1%80%D0%B8%D0%B9_%D0%94%D0%BE%D0%BB%D0%B3%D0%BE%D1%80%D1%83%D0%BA%D0%B8%D0%B9%C2%BB.jpg/960px-%C2%AB%D0%AE%D1%80%D0%B8%D0%B9_%D0%94%D0%BE%D0%BB%D0%B3%D0%BE%D1%80%D1%83%D0%BA%D0%B8%D0%B9%C2%BB.jpg"},
+  {"Nimi":"Aleksandr Nevski","Riik":"Venemaa","Kodusadam":"Viljutšinsk (Vaikse ookeani laevastik)","Veeväljasurve":"~24 000 tonni (sukeldunult)","Relvastus":"16× RSM-56 Bulava ballistilist raketti, torpeedotorud","Klass":"Borei klass (Projekt 955)","lat":52.9,"lng":158.4,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/%C2%AB%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80_%D0%9D%D0%B5%D0%B2%D1%81%D0%BA%D0%B8%D0%B9%C2%BB_%D0%B2_%D0%92%D0%B8%D0%BB%D1%8E%D1%87%D0%B8%D0%BD%D1%81%D0%BA%D0%B5.jpg/960px-%C2%AB%D0%90%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80_%D0%9D%D0%B5%D0%B2%D1%81%D0%BA%D0%B8%D0%B9%C2%BB_%D0%B2_%D0%92%D0%B8%D0%BB%D1%8E%D1%87%D0%B8%D0%BD%D1%81%D0%BA%D0%B5.jpg"},
+  {"Nimi":"Vladimir Monomahh","Riik":"Venemaa","Kodusadam":"Viljutšinsk (Vaikse ookeani laevastik)","Veeväljasurve":"~24 000 tonni (sukeldunult)","Relvastus":"16× RSM-56 Bulava ballistilist raketti, torpeedotorud","Klass":"Borei klass (Projekt 955)","lat":52.9,"lng":158.4,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/%D0%90%D0%9F%D0%9B_%22%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%9C%D0%BE%D0%BD%D0%BE%D0%BC%D0%B0%D1%85%22.jpg/960px-%D0%90%D0%9F%D0%9B_%22%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%BC%D0%B8%D1%80_%D0%9C%D0%BE%D0%BD%D0%BE%D0%BC%D0%B0%D1%85%22.jpg"},
+  {"Nimi":"Knjaz Vladimir","Riik":"Venemaa","Kodusadam":"Gadžijevo (Põhjalaevastik)","Veeväljasurve":"~24 000 tonni (sukeldunult)","Relvastus":"16× RSM-56 Bulava ballistilist raketti, torpeedotorud","Klass":"Borei-A klass (Projekt 955A)","lat":69.25,"lng":33.33,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/K-549_Knyaz_Vladimir_at_sea_trials_%282019%29.jpg/960px-K-549_Knyaz_Vladimir_at_sea_trials_%282019%29.jpg"},
+  {"Nimi":"Knjaz Oleg","Riik":"Venemaa","Kodusadam":"Viljutšinsk (Vaikse ookeani laevastik)","Veeväljasurve":"~24 000 tonni (sukeldunult)","Relvastus":"16× RSM-56 Bulava ballistilist raketti, torpeedotorud","Klass":"Borei-A klass (Projekt 955A)","lat":52.9,"lng":158.4,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/K-552_at_Northern_fleet.jpg/960px-K-552_at_Northern_fleet.jpg"},
+  {"Nimi":"Generalissimus Suvorov","Riik":"Venemaa","Kodusadam":"Viljutšinsk (Vaikse ookeani laevastik)","Veeväljasurve":"~24 000 tonni (sukeldunult)","Relvastus":"16× RSM-56 Bulava ballistilist raketti, torpeedotorud","Klass":"Borei-A klass (Projekt 955A)","lat":52.9,"lng":158.4,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Russian_Navy_SSBN_Generalissimus_Suvorov.jpg/960px-Russian_Navy_SSBN_Generalissimus_Suvorov.jpg"},
+  {"Nimi":"Imperator Aleksandr III","Riik":"Venemaa","Kodusadam":"Viljutšinsk (Vaikse ookeani laevastik)","Veeväljasurve":"~24 000 tonni (sukeldunult)","Relvastus":"16× RSM-56 Bulava ballistilist raketti, torpeedotorud","Klass":"Borei-A klass (Projekt 955A)","lat":52.9,"lng":158.4,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Russian_Navy_SSBN_Imperator_Aleksandr_III.jpg/960px-Russian_Navy_SSBN_Imperator_Aleksandr_III.jpg"},
+  {"Nimi":"Knjaz Požarski","Riik":"Venemaa","Kodusadam":"Gadžijevo (Põhjalaevastik)","Veeväljasurve":"~24 000 tonni (sukeldunult)","Relvastus":"16× RSM-56 Bulava ballistilist raketti, torpeedotorud","Klass":"Borei-A klass (Projekt 955A)","lat":69.25,"lng":33.33,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Submarine_Knyaz_Pozharskiy_launching_ceremony_01.jpg/960px-Submarine_Knyaz_Pozharskiy_launching_ceremony_01.jpg"},
+  {"Nimi":"Irkutsk","Riik":"Venemaa","Kodusadam":"Viljutšinsk (Vaikse ookeani laevastik)","Veeväljasurve":"~19 400 tonni (sukeldunult)","Relvastus":"24× P-700 Granit tiibraketti, torpeedotorud","Klass":"Oscar-II klass (Projekt 949A)","lat":52.9,"lng":158.4,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Oscar_II_class_SSGN.svg/960px-Oscar_II_class_SSGN.svg.png"},
+  {"Nimi":"Omsk","Riik":"Venemaa","Kodusadam":"Viljutšinsk (Vaikse ookeani laevastik)","Veeväljasurve":"~19 400 tonni (sukeldunult)","Relvastus":"24× P-700 Granit tiibraketti, torpeedotorud","Klass":"Oscar-II klass (Projekt 949A)","lat":52.9,"lng":158.4,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/%D0%90%D0%9F%D0%9B_%D0%9E%D0%BC%D1%81%D0%BA._%D0%9F%D0%B0%D1%80%D0%B0%D0%B4_%D0%92%D0%9C%D0%A4_%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%B2%D0%BE%D1%81%D1%82%D0%BE%D0%BA_2008.07.25.jpg/960px-%D0%90%D0%9F%D0%9B_%D0%9E%D0%BC%D1%81%D0%BA._%D0%9F%D0%B0%D1%80%D0%B0%D0%B4_%D0%92%D0%9C%D0%A4_%D0%92%D0%BB%D0%B0%D0%B4%D0%B8%D0%B2%D0%BE%D1%81%D1%82%D0%BE%D0%BA_2008.07.25.jpg"},
+  {"Nimi":"Tomsk","Riik":"Venemaa","Kodusadam":"Viljutšinsk (Vaikse ookeani laevastik)","Veeväljasurve":"~19 400 tonni (sukeldunult)","Relvastus":"24× P-700 Granit tiibraketti, torpeedotorud","Klass":"Oscar-II klass (Projekt 949A)","lat":52.9,"lng":158.4,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/%D0%A2%D0%BE%D0%BC%D1%81%D0%BA_%D0%B2_%D0%92%D0%B8%D0%BB%D1%8E%D1%87%D0%B8%D0%BD%D1%81%D0%BA%D0%B5.jpg/960px-%D0%A2%D0%BE%D0%BC%D1%81%D0%BA_%D0%B2_%D0%92%D0%B8%D0%BB%D1%8E%D1%87%D0%B8%D0%BD%D1%81%D0%BA%D0%B5.jpg"},
+  {"Nimi":"Orjol","Riik":"Venemaa","Kodusadam":"Zaozjorsk (Põhjalaevastik)","Veeväljasurve":"~19 400 tonni (sukeldunult)","Relvastus":"24× P-700 Granit tiibraketti, torpeedotorud","Klass":"Oscar-II klass (Projekt 949A)","lat":69.44,"lng":32.45,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/%D0%9E%D1%80%D1%91%D0%BB_%D0%B2_%D0%A4%D0%B8%D0%BD%D1%81%D0%BA%D0%BE%D0%BC_%D0%B7%D0%B0%D0%BB%D0%B8%D0%B2%D0%B5._%D0%9A%D1%80%D0%BE%D0%BD%D1%88%D1%82%D0%B0%D0%B4%D1%82.png/960px-%D0%9E%D1%80%D1%91%D0%BB_%D0%B2_%D0%A4%D0%B8%D0%BD%D1%81%D0%BA%D0%BE%D0%BC_%D0%B7%D0%B0%D0%BB%D0%B8%D0%B2%D0%B5._%D0%9A%D1%80%D0%BE%D0%BD%D1%88%D1%82%D0%B0%D0%B4%D1%82.png"},
+  {"Nimi":"Smolensk","Riik":"Venemaa","Kodusadam":"Zaozjorsk (Põhjalaevastik)","Veeväljasurve":"~19 400 tonni (sukeldunult)","Relvastus":"24× P-700 Granit tiibraketti, torpeedotorud","Klass":"Oscar-II klass (Projekt 949A)","lat":69.44,"lng":32.45,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/K-410_Smolensk.jpg/960px-K-410_Smolensk.jpg"},
+  {"Nimi":"Voronež","Riik":"Venemaa","Kodusadam":"Zaozjorsk (Põhjalaevastik)","Veeväljasurve":"~19 400 tonni (sukeldunult)","Relvastus":"24× P-700 Granit tiibraketti, torpeedotorud","Klass":"Oscar-II klass (Projekt 949A)","lat":69.44,"lng":32.45,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Oscar_II_class_SSGN.svg/960px-Oscar_II_class_SSGN.svg.png"},
+  {"Nimi":"Tšeljabinsk","Riik":"Venemaa","Kodusadam":"Viljutšinsk (Vaikse ookeani laevastik)","Veeväljasurve":"~19 400 tonni (sukeldunult)","Relvastus":"24× P-700 Granit tiibraketti, torpeedotorud","Klass":"Oscar-II klass (Projekt 949A)","lat":52.9,"lng":158.4,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/%D0%A1%D0%A1%D0%9A_%D0%97%D0%B2%D0%B5%D0%B7%D0%B4%D0%B0._2016.jpg/960px-%D0%A1%D0%A1%D0%9A_%D0%97%D0%B2%D0%B5%D0%B7%D0%B4%D0%B0._2016.jpg"},
+  {"Nimi":"Verhoturje","Riik":"Venemaa","Kodusadam":"Gadžijevo (Põhjalaevastik)","Veeväljasurve":"~18 200 tonni (sukeldunult)","Relvastus":"16× R-29RM Sineva ballistilist raketti, torpeedotorud","Klass":"Delta IV klass (Projekt 667BDRM)","lat":69.25,"lng":33.33,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/K-51_Verkhoturye_is_preparing_to_sea_trials_in_2012.jpg/960px-K-51_Verkhoturye_is_preparing_to_sea_trials_in_2012.jpg"},
+  {"Nimi":"Jekaterinburg","Riik":"Venemaa","Kodusadam":"Gadžijevo (Põhjalaevastik)","Veeväljasurve":"~18 200 tonni (sukeldunult)","Relvastus":"16× R-29RM Sineva ballistilist raketti, torpeedotorud","Klass":"Delta IV klass (Projekt 667BDRM)","lat":69.25,"lng":33.33,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/K-84_Ekaterinburg_in_2014.jpg/960px-K-84_Ekaterinburg_in_2014.jpg"},
+  {"Nimi":"Tula","Riik":"Venemaa","Kodusadam":"Gadžijevo (Põhjalaevastik)","Veeväljasurve":"~18 200 tonni (sukeldunult)","Relvastus":"16× R-29RM Sineva ballistilist raketti, torpeedotorud","Klass":"Delta IV klass (Projekt 667BDRM)","lat":69.25,"lng":33.33,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/RIAN_archive_895550_Drills_for_nuclear_submarine_crews_at_training_center_in_Murmansk_Region.jpg/960px-RIAN_archive_895550_Drills_for_nuclear_submarine_crews_at_training_center_in_Murmansk_Region.jpg"},
+  {"Nimi":"Brjansk","Riik":"Venemaa","Kodusadam":"Gadžijevo (Põhjalaevastik)","Veeväljasurve":"~18 200 tonni (sukeldunult)","Relvastus":"16× R-29RM Sineva ballistilist raketti, torpeedotorud","Klass":"Delta IV klass (Projekt 667BDRM)","lat":69.25,"lng":33.33,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Russian_Navy_SSBN_Bryansk.jpg/960px-Russian_Navy_SSBN_Bryansk.jpg"},
+  {"Nimi":"Karelia","Riik":"Venemaa","Kodusadam":"Gadžijevo (Põhjalaevastik)","Veeväljasurve":"~18 200 tonni (sukeldunult)","Relvastus":"16× R-29RM Sineva ballistilist raketti, torpeedotorud","Klass":"Delta IV klass (Projekt 667BDRM)","lat":69.25,"lng":33.33,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Submarine_Delta_IV_class.jpg/960px-Submarine_Delta_IV_class.jpg"},
+  {"Nimi":"Novomoskovsk","Riik":"Venemaa","Kodusadam":"Gadžijevo (Põhjalaevastik)","Veeväljasurve":"~18 200 tonni (sukeldunult)","Relvastus":"16× R-29RM Sineva ballistilist raketti, torpeedotorud","Klass":"Delta IV klass (Projekt 667BDRM)","lat":69.25,"lng":33.33,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Submarine_Novomoskovsk%2C_2016_2.jpg/960px-Submarine_Novomoskovsk%2C_2016_2.jpg"},
+  {"Nimi":"Rjazan","Riik":"Venemaa","Kodusadam":"Gadžijevo (Põhjalaevastik)","Veeväljasurve":"~18 200 tonni (sukeldunult)","Relvastus":"16× R-29RM Sineva ballistilist raketti, torpeedotorud","Klass":"Delta IV klass (Projekt 667BDRM)","lat":69.25,"lng":33.33,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Submarine_Delta_IV_class.jpg/960px-Submarine_Delta_IV_class.jpg"},
+  {"Nimi":"USS Ohio (SSGN-726)","Riik":"USA","Kodusadam":"Bangor, Washington","Veeväljasurve":"~18 750 tonni (sukeldunult)","Relvastus":"Kuni 154 Tomahawk tiibraketti, erioperatsioonide varustus, torpeedotorud","Klass":"Ohio klass (SSGN)","lat":47.75,"lng":-122.73,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/USS_Ohio_%28SSGN_726%29.jpg/960px-USS_Ohio_%28SSGN_726%29.jpg"},
+  {"Nimi":"USS Michigan (SSGN-727)","Riik":"USA","Kodusadam":"Bangor, Washington","Veeväljasurve":"~18 750 tonni (sukeldunult)","Relvastus":"Kuni 154 Tomahawk tiibraketti, erioperatsioonide varustus, torpeedotorud","Klass":"Ohio klass (SSGN)","lat":47.75,"lng":-122.73,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/USS_Michigan_%28SSGN_727%29_transits_Tokyo_Bay_150706-N-ED185-161.jpg/960px-USS_Michigan_%28SSGN_727%29_transits_Tokyo_Bay_150706-N-ED185-161.jpg"},
+  {"Nimi":"USS Florida (SSGN-728)","Riik":"USA","Kodusadam":"Kings Bay, Georgia","Veeväljasurve":"~18 750 tonni (sukeldunult)","Relvastus":"Kuni 154 Tomahawk tiibraketti, erioperatsioonide varustus, torpeedotorud","Klass":"Ohio klass (SSGN)","lat":30.8,"lng":-81.55,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/USS_Florida_%28SSGN-728%29.jpg/960px-USS_Florida_%28SSGN-728%29.jpg"},
+  {"Nimi":"USS Georgia (SSGN-729)","Riik":"USA","Kodusadam":"Kings Bay, Georgia","Veeväljasurve":"~18 750 tonni (sukeldunult)","Relvastus":"Kuni 154 Tomahawk tiibraketti, erioperatsioonide varustus, torpeedotorud","Klass":"Ohio klass (SSGN)","lat":30.8,"lng":-81.55,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/USS-Georgia-%28SSGN-729%29.jpg/960px-USS-Georgia-%28SSGN-729%29.jpg"},
+  {"Nimi":"USS Henry M. Jackson (SSBN-730)","Riik":"USA","Kodusadam":"Bangor, Washington","Veeväljasurve":"~18 750 tonni (sukeldunult)","Relvastus":"24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud","Klass":"Ohio klass (SSBN)","lat":47.75,"lng":-122.73,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/USS_Henry_M._Jackson_%28SSBN-730%292.jpg/960px-USS_Henry_M._Jackson_%28SSBN-730%292.jpg"},
+  {"Nimi":"USS Alabama (SSBN-731)","Riik":"USA","Kodusadam":"Bangor, Washington","Veeväljasurve":"~18 750 tonni (sukeldunult)","Relvastus":"24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud","Klass":"Ohio klass (SSBN)","lat":47.75,"lng":-122.73,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/USS_Alabama_SSBN_731.jpg/960px-USS_Alabama_SSBN_731.jpg"},
+  {"Nimi":"USS Alaska (SSBN-732)","Riik":"USA","Kodusadam":"Bangor, Washington","Veeväljasurve":"~18 750 tonni (sukeldunult)","Relvastus":"24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud","Klass":"Ohio klass (SSBN)","lat":47.75,"lng":-122.73,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/USS_Alaska_SSBN-732.jpg/960px-USS_Alaska_SSBN-732.jpg"},
+  {"Nimi":"USS Nevada (SSBN-733)","Riik":"USA","Kodusadam":"Bangor, Washington","Veeväljasurve":"~18 750 tonni (sukeldunult)","Relvastus":"24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud","Klass":"Ohio klass (SSBN)","lat":47.75,"lng":-122.73,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/USS_Nevada_%28SSBN-733%29_underway.jpg/960px-USS_Nevada_%28SSBN-733%29_underway.jpg"},
+  {"Nimi":"USS Tennessee (SSBN-734)","Riik":"USA","Kodusadam":"Kings Bay, Georgia","Veeväljasurve":"~18 750 tonni (sukeldunult)","Relvastus":"24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud","Klass":"Ohio klass (SSBN)","lat":30.8,"lng":-81.55,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/USS_Tennessee_%28SSBN_734%29.jpg/960px-USS_Tennessee_%28SSBN_734%29.jpg"},
+  {"Nimi":"USS Pennsylvania (SSBN-735)","Riik":"USA","Kodusadam":"Bangor, Washington","Veeväljasurve":"~18 750 tonni (sukeldunult)","Relvastus":"24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud","Klass":"Ohio klass (SSBN)","lat":47.75,"lng":-122.73,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/USS_Pennsylvania_%28SSBN-735%29.jpg/960px-USS_Pennsylvania_%28SSBN-735%29.jpg"},
+  {"Nimi":"USS West Virginia (SSBN-736)","Riik":"USA","Kodusadam":"Kings Bay, Georgia","Veeväljasurve":"~18 750 tonni (sukeldunult)","Relvastus":"24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud","Klass":"Ohio klass (SSBN)","lat":30.8,"lng":-81.55,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Flickr_-_Official_U.S._Navy_Imagery_-_USS_West_Virginia_off_the_coast_of_Georgia..jpg/960px-Flickr_-_Official_U.S._Navy_Imagery_-_USS_West_Virginia_off_the_coast_of_Georgia..jpg"},
+  {"Nimi":"USS Kentucky (SSBN-737)","Riik":"USA","Kodusadam":"Bangor, Washington","Veeväljasurve":"~18 750 tonni (sukeldunult)","Relvastus":"24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud","Klass":"Ohio klass (SSBN)","lat":47.75,"lng":-122.73,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/USS_Kentucky_%28SSBN-737%29.jpg/960px-USS_Kentucky_%28SSBN-737%29.jpg"},
+  {"Nimi":"USS Maryland (SSBN-738)","Riik":"USA","Kodusadam":"Kings Bay, Georgia","Veeväljasurve":"~18 750 tonni (sukeldunult)","Relvastus":"24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud","Klass":"Ohio klass (SSBN)","lat":30.8,"lng":-81.55,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Flickr_-_Official_U.S._Navy_Imagery_-_USS_Maryland_transits_the_Saint_Marys_River..jpg/960px-Flickr_-_Official_U.S._Navy_Imagery_-_USS_Maryland_transits_the_Saint_Marys_River..jpg"},
+  {"Nimi":"USS Nebraska (SSBN-739)","Riik":"USA","Kodusadam":"Bangor, Washington","Veeväljasurve":"~18 750 tonni (sukeldunult)","Relvastus":"24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud","Klass":"Ohio klass (SSBN)","lat":47.75,"lng":-122.73,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/USS_Nebraska_%28SSBN-739%29_at_Naval_Base_Kitsap.jpg/960px-USS_Nebraska_%28SSBN-739%29_at_Naval_Base_Kitsap.jpg"},
+  {"Nimi":"USS Rhode Island (SSBN-740)","Riik":"USA","Kodusadam":"Kings Bay, Georgia","Veeväljasurve":"~18 750 tonni (sukeldunult)","Relvastus":"24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud","Klass":"Ohio klass (SSBN)","lat":30.8,"lng":-81.55,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/USS_Rhode_Island_%28SSBN-740%29.jpg/960px-USS_Rhode_Island_%28SSBN-740%29.jpg"},
+  {"Nimi":"USS Maine (SSBN-741)","Riik":"USA","Kodusadam":"Kings Bay, Georgia","Veeväljasurve":"~18 750 tonni (sukeldunult)","Relvastus":"24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud","Klass":"Ohio klass (SSBN)","lat":30.8,"lng":-81.55,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/USS_Maine_%28SSBN-741%292.jpg/960px-USS_Maine_%28SSBN-741%292.jpg"},
+  {"Nimi":"USS Wyoming (SSBN-742)","Riik":"USA","Kodusadam":"Kings Bay, Georgia","Veeväljasurve":"~18 750 tonni (sukeldunult)","Relvastus":"24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud","Klass":"Ohio klass (SSBN)","lat":30.8,"lng":-81.55,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/USS_Wyoming_%28SSBN-742%29.jpg/960px-USS_Wyoming_%28SSBN-742%29.jpg"},
+  {"Nimi":"USS Louisiana (SSBN-743)","Riik":"USA","Kodusadam":"Bangor, Washington","Veeväljasurve":"~18 750 tonni (sukeldunult)","Relvastus":"24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud","Klass":"Ohio klass (SSBN)","lat":47.75,"lng":-122.73,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/USS_Louisiana_%28SSBN-743%29.jpg/960px-USS_Louisiana_%28SSBN-743%29.jpg"},
+  {"Nimi":"HMS Vanguard (S28)","Riik":"Suurbritannia","Kodusadam":"HMNB Clyde, Faslane","Veeväljasurve":"~15 900 tonni (sukeldunult)","Relvastus":"16× Trident II D5 ballistilist raketti (kasutuses kuni 8), torpeedotorud","Klass":"Vanguardi klass","lat":56.05,"lng":-4.82,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Vanguard_at_Faslane_02.jpg/960px-Vanguard_at_Faslane_02.jpg"},
+  {"Nimi":"HMS Victorious (S29)","Riik":"Suurbritannia","Kodusadam":"HMNB Clyde, Faslane","Veeväljasurve":"~15 900 tonni (sukeldunult)","Relvastus":"16× Trident II D5 ballistilist raketti (kasutuses kuni 8), torpeedotorud","Klass":"Vanguardi klass","lat":56.05,"lng":-4.82,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Trident_Nuclear_Submarine_HMS_Victorious.jpg/960px-Trident_Nuclear_Submarine_HMS_Victorious.jpg"},
+  {"Nimi":"HMS Vigilant (S30)","Riik":"Suurbritannia","Kodusadam":"HMNB Clyde, Faslane","Veeväljasurve":"~15 900 tonni (sukeldunult)","Relvastus":"16× Trident II D5 ballistilist raketti (kasutuses kuni 8), torpeedotorud","Klass":"Vanguardi klass","lat":56.05,"lng":-4.82,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/HMS_Vigilant_MOD_45157568.jpg/960px-HMS_Vigilant_MOD_45157568.jpg"},
+  {"Nimi":"HMS Vengeance (S31)","Riik":"Suurbritannia","Kodusadam":"HMNB Clyde, Faslane","Veeväljasurve":"~15 900 tonni (sukeldunult)","Relvastus":"16× Trident II D5 ballistilist raketti (kasutuses kuni 8), torpeedotorud","Klass":"Vanguardi klass","lat":56.05,"lng":-4.82,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Image_of_HMS_Vengeance_returning_to_HMNB_Clyde%2C_after_completing_Operational_Sea_Training_MOD_45159434.jpg/960px-Image_of_HMS_Vengeance_returning_to_HMNB_Clyde%2C_after_completing_Operational_Sea_Training_MOD_45159434.jpg"},
+  {"Nimi":"Severodvinsk (K-560)","Riik":"Venemaa","Kodusadam":"Zapadnaja Litsa (Põhjalaevastik)","Veeväljasurve":"~13 800 tonni (sukeldunult)","Relvastus":"32× Kalibr/Oniks tiibraketti, torpeedotorud","Klass":"Jaseni klass (Projekt 885)","lat":69.44,"lng":32.45,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/%D0%9A-560_%C2%AB%D0%A1%D0%B5%D0%B2%D0%B5%D1%80%D0%BE%D0%B4%D0%B2%D0%B8%D0%BD%D1%81%D0%BA%C2%BB.jpg/960px-%D0%9A-560_%C2%AB%D0%A1%D0%B5%D0%B2%D0%B5%D1%80%D0%BE%D0%B4%D0%B2%D0%B8%D0%BD%D1%81%D0%BA%C2%BB.jpg"},
+  {"Nimi":"Le Triomphant (S616)","Riik":"Prantsusmaa","Kodusadam":"Île Longue, Brest","Veeväljasurve":"~14 335 tonni (sukeldunult)","Relvastus":"16× M51 ballistilist raketti, torpeedotorud","Klass":"Triomphant'i klass","lat":48.28,"lng":-4.42,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Sous-marin-nucleaire-lanceur-d-engins-le-triomphant_%28cropped%29.jpg/960px-Sous-marin-nucleaire-lanceur-d-engins-le-triomphant_%28cropped%29.jpg"},
+  {"Nimi":"Le Téméraire (S617)","Riik":"Prantsusmaa","Kodusadam":"Île Longue, Brest","Veeväljasurve":"~14 335 tonni (sukeldunult)","Relvastus":"16× M51 ballistilist raketti, torpeedotorud","Klass":"Triomphant'i klass","lat":48.28,"lng":-4.42,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Temeraire1048.jpg/960px-Temeraire1048.jpg"},
+  {"Nimi":"Le Vigilant (S618)","Riik":"Prantsusmaa","Kodusadam":"Île Longue, Brest","Veeväljasurve":"~14 335 tonni (sukeldunult)","Relvastus":"16× M51 ballistilist raketti, torpeedotorud","Klass":"Triomphant'i klass","lat":48.28,"lng":-4.42,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/SNLE-NG.jpeg/960px-SNLE-NG.jpeg"},
+  {"Nimi":"Le Terrible (S619)","Riik":"Prantsusmaa","Kodusadam":"Île Longue, Brest","Veeväljasurve":"~14 335 tonni (sukeldunult)","Relvastus":"16× M51 ballistilist raketti, torpeedotorud","Klass":"Triomphant'i klass","lat":48.28,"lng":-4.42,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/S619.Le_Terrible.wmt.jpg/960px-S619.Le_Terrible.wmt.jpg"}
+];
+
 // Grupeeri riigi kaupa
 const byCountry = {};
 ships.forEach(s => {
@@ -451,6 +580,7 @@ function shipPopupHtml(s){
     </dl>`;
 }
 
+const carrierLayer = L.layerGroup();
 ships.forEach(s => {
   const icon = L.divIcon({
     className: '',
@@ -460,8 +590,58 @@ ships.forEach(s => {
   });
 
   L.marker([s.lat, s.lng], { icon, title: s.Nimi })
-    .addTo(map)
-    .bindPopup(shipPopupHtml(s), { maxWidth: 260 });
+    .bindPopup(shipPopupHtml(s), { maxWidth: 260 })
+    .addTo(carrierLayer);
+});
+carrierLayer.addTo(map);
+
+// --- Allveelaevad ---
+const byCountrySub = {};
+submarines.forEach(s => {
+  (byCountrySub[s.Riik] = byCountrySub[s.Riik] || []).push(s);
+});
+
+function subCardHtml(s){
+  return `
+    <div class="card">
+      <div class="imgwrap"><img src="${s.img}" alt="${s.Nimi}" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+      <div class="body">
+        <span class="badge">${s.Klass}</span>
+        <div class="name">${s.Nimi}</div>
+        <dl>
+          <dt>Kodusadam</dt><dd>${s.Kodusadam}</dd>
+          <dt>Veeväljasurve</dt><dd>${s["Veeväljasurve"]}</dd>
+          <dt>Relvastus</dt><dd>${s.Relvastus}</dd>
+        </dl>
+      </div>
+    </div>`;
+}
+
+function submarinePopupHtml(s){
+  return `
+    <div class="popup-country">${s.Riik}</div>
+    <div class="popup-title">${s.Nimi}</div>
+    <div class="popup-img"><img src="${s.img}" alt="${s.Nimi}" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+    <span class="badge" style="margin-bottom:6px;">${s.Klass}</span>
+    <dl class="popup-dl">
+      <dt>Kodusadam</dt><dd>${s.Kodusadam}</dd>
+      <dt>Veeväljasurve</dt><dd>${s["Veeväljasurve"]}</dd>
+      <dt>Relvastus</dt><dd>${s.Relvastus}</dd>
+    </dl>`;
+}
+
+const submarineLayer = L.layerGroup();
+submarines.forEach(s => {
+  const icon = L.divIcon({
+    className: '',
+    html: `<div style="position:relative;"><div class="submarine-dot"></div></div>`,
+    iconSize: [14, 14],
+    iconAnchor: [7, 7]
+  });
+
+  L.marker([s.lat, s.lng], { icon, title: s.Nimi })
+    .bindPopup(submarinePopupHtml(s), { maxWidth: 260 })
+    .addTo(submarineLayer);
 });
 
 // --- Legend (filtreeriv) ---
@@ -498,6 +678,80 @@ function renderGroups(){
 
 renderLegend();
 renderGroups();
+
+// --- Allveelaevade legend (filtreeriv) ---
+const sortedSubCountries = Object.entries(byCountrySub).sort((a,b) => b[1].length - a[1].length);
+const subLegend = document.getElementById('subLegend');
+const allSubGroups = document.getElementById('allSubGroups');
+let activeSubCountry = null;
+
+function renderSubLegend(){
+  subLegend.innerHTML = sortedSubCountries.map(([country, list]) => `
+    <button type="button" class="tag${country === activeSubCountry ? ' active' : ''}" data-country="${country}">${country} — ${list.length}</button>
+  `).join('');
+  subLegend.querySelectorAll('.tag').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const c = btn.dataset.country;
+      activeSubCountry = (activeSubCountry === c) ? null : c;
+      renderSubLegend();
+      renderSubGroups();
+    });
+  });
+}
+
+function renderSubGroups(){
+  const entries = activeSubCountry ? sortedSubCountries.filter(([country]) => country === activeSubCountry) : sortedSubCountries;
+  allSubGroups.innerHTML = entries.map(([country, list]) => `
+    <div style="margin:0 0 32px;">
+      <h3 style="font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.08em;font-size:13px;color:var(--navy-900);margin:0 0 12px;">${country}</h3>
+      <div class="grid">
+        ${list.map(subCardHtml).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+renderSubLegend();
+renderSubGroups();
+
+// --- Sakid (lennukikandja / allveelaev) ---
+const shipTabs = document.querySelectorAll('.ship-tab');
+const carrierView = document.getElementById('carrierView');
+const submarineView = document.getElementById('submarineView');
+const pageIntro = document.getElementById('pageIntro');
+
+const tabCopy = {
+  carrier: {
+    intro: 'Iga punkt tähistab üht lennukikandjat tema kodusadama juures. Klõpsa punktil, et näha selle laeva pilti ja andmeid, või keri alla täieliku ülevaate saamiseks.'
+  },
+  submarine: {
+    intro: 'Iga punkt tähistab üht allveelaeva tema kodusadama juures. Klõpsa punktil, et näha selle laeva pilti ja andmeid, või keri alla täieliku ülevaate saamiseks.'
+  }
+};
+
+function setShipType(type){
+  if (type === 'carrier') {
+    if (map.hasLayer(submarineLayer)) map.removeLayer(submarineLayer);
+    if (!map.hasLayer(carrierLayer)) carrierLayer.addTo(map);
+    carrierView.style.display = '';
+    submarineView.style.display = 'none';
+  } else {
+    if (map.hasLayer(carrierLayer)) map.removeLayer(carrierLayer);
+    if (!map.hasLayer(submarineLayer)) submarineLayer.addTo(map);
+    carrierView.style.display = 'none';
+    submarineView.style.display = '';
+  }
+  shipTabs.forEach(t => {
+    const isActive = t.dataset.type === type;
+    t.classList.toggle('active', isActive);
+    t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
+  pageIntro.textContent = tabCopy[type].intro;
+}
+
+shipTabs.forEach(t => {
+  t.addEventListener('click', () => setShipType(t.dataset.type));
+});
 </script>
 </body>
 </html>

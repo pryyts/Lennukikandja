@@ -1,0 +1,402 @@
+[
+  {
+    "Nimi": "Dmitri Donskoi (TK-208)",
+    "Riik": "Venemaa",
+    "Kodusadam": "Severodvinsk (Zvjozdotška laevatehas)",
+    "Veeväljasurve": "~48 000 tonni (sukeldunult)",
+    "Relvastus": "20× R-39 ballistilist raketti (algselt), torpeedotorud — praegu katseplatvorm",
+    "Klass": "Tüfuuni klass (Projekt 941 Akula)"
+  },
+  {
+    "Nimi": "Juri Dolgoruki",
+    "Riik": "Venemaa",
+    "Kodusadam": "Gadžijevo (Põhjalaevastik)",
+    "Veeväljasurve": "~24 000 tonni (sukeldunult)",
+    "Relvastus": "16× RSM-56 Bulava ballistilist raketti, torpeedotorud",
+    "Klass": "Borei klass (Projekt 955)"
+  },
+  {
+    "Nimi": "Aleksandr Nevski",
+    "Riik": "Venemaa",
+    "Kodusadam": "Viljutšinsk (Vaikse ookeani laevastik)",
+    "Veeväljasurve": "~24 000 tonni (sukeldunult)",
+    "Relvastus": "16× RSM-56 Bulava ballistilist raketti, torpeedotorud",
+    "Klass": "Borei klass (Projekt 955)"
+  },
+  {
+    "Nimi": "Vladimir Monomahh",
+    "Riik": "Venemaa",
+    "Kodusadam": "Viljutšinsk (Vaikse ookeani laevastik)",
+    "Veeväljasurve": "~24 000 tonni (sukeldunult)",
+    "Relvastus": "16× RSM-56 Bulava ballistilist raketti, torpeedotorud",
+    "Klass": "Borei klass (Projekt 955)"
+  },
+  {
+    "Nimi": "Knjaz Vladimir",
+    "Riik": "Venemaa",
+    "Kodusadam": "Gadžijevo (Põhjalaevastik)",
+    "Veeväljasurve": "~24 000 tonni (sukeldunult)",
+    "Relvastus": "16× RSM-56 Bulava ballistilist raketti, torpeedotorud",
+    "Klass": "Borei-A klass (Projekt 955A)"
+  },
+  {
+    "Nimi": "Knjaz Oleg",
+    "Riik": "Venemaa",
+    "Kodusadam": "Viljutšinsk (Vaikse ookeani laevastik)",
+    "Veeväljasurve": "~24 000 tonni (sukeldunult)",
+    "Relvastus": "16× RSM-56 Bulava ballistilist raketti, torpeedotorud",
+    "Klass": "Borei-A klass (Projekt 955A)"
+  },
+  {
+    "Nimi": "Generalissimus Suvorov",
+    "Riik": "Venemaa",
+    "Kodusadam": "Viljutšinsk (Vaikse ookeani laevastik)",
+    "Veeväljasurve": "~24 000 tonni (sukeldunult)",
+    "Relvastus": "16× RSM-56 Bulava ballistilist raketti, torpeedotorud",
+    "Klass": "Borei-A klass (Projekt 955A)"
+  },
+  {
+    "Nimi": "Imperator Aleksandr III",
+    "Riik": "Venemaa",
+    "Kodusadam": "Viljutšinsk (Vaikse ookeani laevastik)",
+    "Veeväljasurve": "~24 000 tonni (sukeldunult)",
+    "Relvastus": "16× RSM-56 Bulava ballistilist raketti, torpeedotorud",
+    "Klass": "Borei-A klass (Projekt 955A)"
+  },
+  {
+    "Nimi": "Knjaz Požarski",
+    "Riik": "Venemaa",
+    "Kodusadam": "Gadžijevo (Põhjalaevastik)",
+    "Veeväljasurve": "~24 000 tonni (sukeldunult)",
+    "Relvastus": "16× RSM-56 Bulava ballistilist raketti, torpeedotorud",
+    "Klass": "Borei-A klass (Projekt 955A)"
+  },
+  {
+    "Nimi": "Irkutsk",
+    "Riik": "Venemaa",
+    "Kodusadam": "Viljutšinsk (Vaikse ookeani laevastik)",
+    "Veeväljasurve": "~19 400 tonni (sukeldunult)",
+    "Relvastus": "24× P-700 Granit tiibraketti, torpeedotorud",
+    "Klass": "Oscar-II klass (Projekt 949A)"
+  },
+  {
+    "Nimi": "Omsk",
+    "Riik": "Venemaa",
+    "Kodusadam": "Viljutšinsk (Vaikse ookeani laevastik)",
+    "Veeväljasurve": "~19 400 tonni (sukeldunult)",
+    "Relvastus": "24× P-700 Granit tiibraketti, torpeedotorud",
+    "Klass": "Oscar-II klass (Projekt 949A)"
+  },
+  {
+    "Nimi": "Tomsk",
+    "Riik": "Venemaa",
+    "Kodusadam": "Viljutšinsk (Vaikse ookeani laevastik)",
+    "Veeväljasurve": "~19 400 tonni (sukeldunult)",
+    "Relvastus": "24× P-700 Granit tiibraketti, torpeedotorud",
+    "Klass": "Oscar-II klass (Projekt 949A)"
+  },
+  {
+    "Nimi": "Orjol",
+    "Riik": "Venemaa",
+    "Kodusadam": "Zaozjorsk (Põhjalaevastik)",
+    "Veeväljasurve": "~19 400 tonni (sukeldunult)",
+    "Relvastus": "24× P-700 Granit tiibraketti, torpeedotorud",
+    "Klass": "Oscar-II klass (Projekt 949A)"
+  },
+  {
+    "Nimi": "Smolensk",
+    "Riik": "Venemaa",
+    "Kodusadam": "Zaozjorsk (Põhjalaevastik)",
+    "Veeväljasurve": "~19 400 tonni (sukeldunult)",
+    "Relvastus": "24× P-700 Granit tiibraketti, torpeedotorud",
+    "Klass": "Oscar-II klass (Projekt 949A)"
+  },
+  {
+    "Nimi": "Voronež",
+    "Riik": "Venemaa",
+    "Kodusadam": "Zaozjorsk (Põhjalaevastik)",
+    "Veeväljasurve": "~19 400 tonni (sukeldunult)",
+    "Relvastus": "24× P-700 Granit tiibraketti, torpeedotorud",
+    "Klass": "Oscar-II klass (Projekt 949A)"
+  },
+  {
+    "Nimi": "Tšeljabinsk",
+    "Riik": "Venemaa",
+    "Kodusadam": "Viljutšinsk (Vaikse ookeani laevastik)",
+    "Veeväljasurve": "~19 400 tonni (sukeldunult)",
+    "Relvastus": "24× P-700 Granit tiibraketti, torpeedotorud",
+    "Klass": "Oscar-II klass (Projekt 949A)"
+  },
+  {
+    "Nimi": "Verhoturje",
+    "Riik": "Venemaa",
+    "Kodusadam": "Gadžijevo (Põhjalaevastik)",
+    "Veeväljasurve": "~18 200 tonni (sukeldunult)",
+    "Relvastus": "16× R-29RM Sineva ballistilist raketti, torpeedotorud",
+    "Klass": "Delta IV klass (Projekt 667BDRM)"
+  },
+  {
+    "Nimi": "Jekaterinburg",
+    "Riik": "Venemaa",
+    "Kodusadam": "Gadžijevo (Põhjalaevastik)",
+    "Veeväljasurve": "~18 200 tonni (sukeldunult)",
+    "Relvastus": "16× R-29RM Sineva ballistilist raketti, torpeedotorud",
+    "Klass": "Delta IV klass (Projekt 667BDRM)"
+  },
+  {
+    "Nimi": "Tula",
+    "Riik": "Venemaa",
+    "Kodusadam": "Gadžijevo (Põhjalaevastik)",
+    "Veeväljasurve": "~18 200 tonni (sukeldunult)",
+    "Relvastus": "16× R-29RM Sineva ballistilist raketti, torpeedotorud",
+    "Klass": "Delta IV klass (Projekt 667BDRM)"
+  },
+  {
+    "Nimi": "Brjansk",
+    "Riik": "Venemaa",
+    "Kodusadam": "Gadžijevo (Põhjalaevastik)",
+    "Veeväljasurve": "~18 200 tonni (sukeldunult)",
+    "Relvastus": "16× R-29RM Sineva ballistilist raketti, torpeedotorud",
+    "Klass": "Delta IV klass (Projekt 667BDRM)"
+  },
+  {
+    "Nimi": "Karelia",
+    "Riik": "Venemaa",
+    "Kodusadam": "Gadžijevo (Põhjalaevastik)",
+    "Veeväljasurve": "~18 200 tonni (sukeldunult)",
+    "Relvastus": "16× R-29RM Sineva ballistilist raketti, torpeedotorud",
+    "Klass": "Delta IV klass (Projekt 667BDRM)"
+  },
+  {
+    "Nimi": "Novomoskovsk",
+    "Riik": "Venemaa",
+    "Kodusadam": "Gadžijevo (Põhjalaevastik)",
+    "Veeväljasurve": "~18 200 tonni (sukeldunult)",
+    "Relvastus": "16× R-29RM Sineva ballistilist raketti, torpeedotorud",
+    "Klass": "Delta IV klass (Projekt 667BDRM)"
+  },
+  {
+    "Nimi": "Rjazan",
+    "Riik": "Venemaa",
+    "Kodusadam": "Gadžijevo (Põhjalaevastik)",
+    "Veeväljasurve": "~18 200 tonni (sukeldunult)",
+    "Relvastus": "16× R-29RM Sineva ballistilist raketti, torpeedotorud",
+    "Klass": "Delta IV klass (Projekt 667BDRM)"
+  },
+  {
+    "Nimi": "USS Ohio (SSGN-726)",
+    "Riik": "USA",
+    "Kodusadam": "Bangor, Washington",
+    "Veeväljasurve": "~18 750 tonni (sukeldunult)",
+    "Relvastus": "Kuni 154 Tomahawk tiibraketti, erioperatsioonide varustus, torpeedotorud",
+    "Klass": "Ohio klass (SSGN)"
+  },
+  {
+    "Nimi": "USS Michigan (SSGN-727)",
+    "Riik": "USA",
+    "Kodusadam": "Bangor, Washington",
+    "Veeväljasurve": "~18 750 tonni (sukeldunult)",
+    "Relvastus": "Kuni 154 Tomahawk tiibraketti, erioperatsioonide varustus, torpeedotorud",
+    "Klass": "Ohio klass (SSGN)"
+  },
+  {
+    "Nimi": "USS Florida (SSGN-728)",
+    "Riik": "USA",
+    "Kodusadam": "Kings Bay, Georgia",
+    "Veeväljasurve": "~18 750 tonni (sukeldunult)",
+    "Relvastus": "Kuni 154 Tomahawk tiibraketti, erioperatsioonide varustus, torpeedotorud",
+    "Klass": "Ohio klass (SSGN)"
+  },
+  {
+    "Nimi": "USS Georgia (SSGN-729)",
+    "Riik": "USA",
+    "Kodusadam": "Kings Bay, Georgia",
+    "Veeväljasurve": "~18 750 tonni (sukeldunult)",
+    "Relvastus": "Kuni 154 Tomahawk tiibraketti, erioperatsioonide varustus, torpeedotorud",
+    "Klass": "Ohio klass (SSGN)"
+  },
+  {
+    "Nimi": "USS Henry M. Jackson (SSBN-730)",
+    "Riik": "USA",
+    "Kodusadam": "Bangor, Washington",
+    "Veeväljasurve": "~18 750 tonni (sukeldunult)",
+    "Relvastus": "24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud",
+    "Klass": "Ohio klass (SSBN)"
+  },
+  {
+    "Nimi": "USS Alabama (SSBN-731)",
+    "Riik": "USA",
+    "Kodusadam": "Bangor, Washington",
+    "Veeväljasurve": "~18 750 tonni (sukeldunult)",
+    "Relvastus": "24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud",
+    "Klass": "Ohio klass (SSBN)"
+  },
+  {
+    "Nimi": "USS Alaska (SSBN-732)",
+    "Riik": "USA",
+    "Kodusadam": "Bangor, Washington",
+    "Veeväljasurve": "~18 750 tonni (sukeldunult)",
+    "Relvastus": "24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud",
+    "Klass": "Ohio klass (SSBN)"
+  },
+  {
+    "Nimi": "USS Nevada (SSBN-733)",
+    "Riik": "USA",
+    "Kodusadam": "Bangor, Washington",
+    "Veeväljasurve": "~18 750 tonni (sukeldunult)",
+    "Relvastus": "24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud",
+    "Klass": "Ohio klass (SSBN)"
+  },
+  {
+    "Nimi": "USS Tennessee (SSBN-734)",
+    "Riik": "USA",
+    "Kodusadam": "Kings Bay, Georgia",
+    "Veeväljasurve": "~18 750 tonni (sukeldunult)",
+    "Relvastus": "24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud",
+    "Klass": "Ohio klass (SSBN)"
+  },
+  {
+    "Nimi": "USS Pennsylvania (SSBN-735)",
+    "Riik": "USA",
+    "Kodusadam": "Bangor, Washington",
+    "Veeväljasurve": "~18 750 tonni (sukeldunult)",
+    "Relvastus": "24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud",
+    "Klass": "Ohio klass (SSBN)"
+  },
+  {
+    "Nimi": "USS West Virginia (SSBN-736)",
+    "Riik": "USA",
+    "Kodusadam": "Kings Bay, Georgia",
+    "Veeväljasurve": "~18 750 tonni (sukeldunult)",
+    "Relvastus": "24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud",
+    "Klass": "Ohio klass (SSBN)"
+  },
+  {
+    "Nimi": "USS Kentucky (SSBN-737)",
+    "Riik": "USA",
+    "Kodusadam": "Bangor, Washington",
+    "Veeväljasurve": "~18 750 tonni (sukeldunult)",
+    "Relvastus": "24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud",
+    "Klass": "Ohio klass (SSBN)"
+  },
+  {
+    "Nimi": "USS Maryland (SSBN-738)",
+    "Riik": "USA",
+    "Kodusadam": "Kings Bay, Georgia",
+    "Veeväljasurve": "~18 750 tonni (sukeldunult)",
+    "Relvastus": "24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud",
+    "Klass": "Ohio klass (SSBN)"
+  },
+  {
+    "Nimi": "USS Nebraska (SSBN-739)",
+    "Riik": "USA",
+    "Kodusadam": "Bangor, Washington",
+    "Veeväljasurve": "~18 750 tonni (sukeldunult)",
+    "Relvastus": "24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud",
+    "Klass": "Ohio klass (SSBN)"
+  },
+  {
+    "Nimi": "USS Rhode Island (SSBN-740)",
+    "Riik": "USA",
+    "Kodusadam": "Kings Bay, Georgia",
+    "Veeväljasurve": "~18 750 tonni (sukeldunult)",
+    "Relvastus": "24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud",
+    "Klass": "Ohio klass (SSBN)"
+  },
+  {
+    "Nimi": "USS Maine (SSBN-741)",
+    "Riik": "USA",
+    "Kodusadam": "Kings Bay, Georgia",
+    "Veeväljasurve": "~18 750 tonni (sukeldunult)",
+    "Relvastus": "24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud",
+    "Klass": "Ohio klass (SSBN)"
+  },
+  {
+    "Nimi": "USS Wyoming (SSBN-742)",
+    "Riik": "USA",
+    "Kodusadam": "Kings Bay, Georgia",
+    "Veeväljasurve": "~18 750 tonni (sukeldunult)",
+    "Relvastus": "24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud",
+    "Klass": "Ohio klass (SSBN)"
+  },
+  {
+    "Nimi": "USS Louisiana (SSBN-743)",
+    "Riik": "USA",
+    "Kodusadam": "Bangor, Washington",
+    "Veeväljasurve": "~18 750 tonni (sukeldunult)",
+    "Relvastus": "24× UGM-133 Trident II D5 ballistilist raketti, torpeedotorud",
+    "Klass": "Ohio klass (SSBN)"
+  },
+  {
+    "Nimi": "HMS Vanguard (S28)",
+    "Riik": "Suurbritannia",
+    "Kodusadam": "HMNB Clyde, Faslane",
+    "Veeväljasurve": "~15 900 tonni (sukeldunult)",
+    "Relvastus": "16× Trident II D5 ballistilist raketti (kasutuses kuni 8), torpeedotorud",
+    "Klass": "Vanguardi klass"
+  },
+  {
+    "Nimi": "HMS Victorious (S29)",
+    "Riik": "Suurbritannia",
+    "Kodusadam": "HMNB Clyde, Faslane",
+    "Veeväljasurve": "~15 900 tonni (sukeldunult)",
+    "Relvastus": "16× Trident II D5 ballistilist raketti (kasutuses kuni 8), torpeedotorud",
+    "Klass": "Vanguardi klass"
+  },
+  {
+    "Nimi": "HMS Vigilant (S30)",
+    "Riik": "Suurbritannia",
+    "Kodusadam": "HMNB Clyde, Faslane",
+    "Veeväljasurve": "~15 900 tonni (sukeldunult)",
+    "Relvastus": "16× Trident II D5 ballistilist raketti (kasutuses kuni 8), torpeedotorud",
+    "Klass": "Vanguardi klass"
+  },
+  {
+    "Nimi": "HMS Vengeance (S31)",
+    "Riik": "Suurbritannia",
+    "Kodusadam": "HMNB Clyde, Faslane",
+    "Veeväljasurve": "~15 900 tonni (sukeldunult)",
+    "Relvastus": "16× Trident II D5 ballistilist raketti (kasutuses kuni 8), torpeedotorud",
+    "Klass": "Vanguardi klass"
+  },
+  {
+    "Nimi": "Severodvinsk (K-560)",
+    "Riik": "Venemaa",
+    "Kodusadam": "Zapadnaja Litsa (Põhjalaevastik)",
+    "Veeväljasurve": "~13 800 tonni (sukeldunult)",
+    "Relvastus": "32× Kalibr/Oniks tiibraketti, torpeedotorud",
+    "Klass": "Jaseni klass (Projekt 885)"
+  },
+  {
+    "Nimi": "Le Triomphant (S616)",
+    "Riik": "Prantsusmaa",
+    "Kodusadam": "Île Longue, Brest",
+    "Veeväljasurve": "~14 335 tonni (sukeldunult)",
+    "Relvastus": "16× M51 ballistilist raketti, torpeedotorud",
+    "Klass": "Triomphant'i klass"
+  },
+  {
+    "Nimi": "Le Téméraire (S617)",
+    "Riik": "Prantsusmaa",
+    "Kodusadam": "Île Longue, Brest",
+    "Veeväljasurve": "~14 335 tonni (sukeldunult)",
+    "Relvastus": "16× M51 ballistilist raketti, torpeedotorud",
+    "Klass": "Triomphant'i klass"
+  },
+  {
+    "Nimi": "Le Vigilant (S618)",
+    "Riik": "Prantsusmaa",
+    "Kodusadam": "Île Longue, Brest",
+    "Veeväljasurve": "~14 335 tonni (sukeldunult)",
+    "Relvastus": "16× M51 ballistilist raketti, torpeedotorud",
+    "Klass": "Triomphant'i klass"
+  },
+  {
+    "Nimi": "Le Terrible (S619)",
+    "Riik": "Prantsusmaa",
+    "Kodusadam": "Île Longue, Brest",
+    "Veeväljasurve": "~14 335 tonni (sukeldunult)",
+    "Relvastus": "16× M51 ballistilist raketti, torpeedotorud",
+    "Klass": "Triomphant'i klass"
+  }
+]
