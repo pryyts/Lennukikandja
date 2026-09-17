@@ -208,6 +208,18 @@
     border:1px solid var(--border);
     color:var(--text-faint);
     padding:4px 10px;
+    background:var(--surface);
+    cursor:pointer;
+    transition:background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+  }
+  .tag:hover{
+    border-color:var(--accent);
+    color:var(--accent-dark);
+  }
+  .tag.active{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#fff;
   }
 
   main.detail{
@@ -332,56 +344,85 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
-const images = {
-  "USS Gerald R. Ford (CVN-78)": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/USS_Gerald_R._Ford_%28CVN-78%29_underway_in_the_Atlantic_Ocean_on_9_October_2022_%28221009-N-TL968-1248%29.JPG/960px-USS_Gerald_R._Ford_%28CVN-78%29_underway_in_the_Atlantic_Ocean_on_9_October_2022_%28221009-N-TL968-1248%29.JPG",
-  "USS Nimitz (CVN-68) ja teised Nimitzi klassi laevad": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/USS_Nimitz_%28CVN-68%29.jpg/960px-USS_Nimitz_%28CVN-68%29.jpg",
-  "Fujian": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/PLAN_CV-18_Fujian_20250911.jpg/960px-PLAN_CV-18_Fujian_20250911.jpg",
-  "Shandong": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Chinese_aircraft_carrier_Shandong_in_2019.jpg/960px-Chinese_aircraft_carrier_Shandong_in_2019.jpg",
-  "HMS Queen Elizabeth (R08)": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/HMS_Queen_Elizabeth_in_Gibraltar_-_2018_%2828386226189%29.jpg/960px-HMS_Queen_Elizabeth_in_Gibraltar_-_2018_%2828386226189%29.jpg",
-  "HMS Prince of Wales (R09)": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/VX-23_F-35B_approaches_HMS_Prince_of_Wales.jpg/960px-VX-23_F-35B_approaches_HMS_Prince_of_Wales.jpg",
-  "Liaoning": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Aircraft_Carrier_Liaoning_CV-16.jpg/960px-Aircraft_Carrier_Liaoning_CV-16.jpg",
-  "Admiral Kuznetsov": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/MilitarySportsHoliday2017-03.jpg/960px-MilitarySportsHoliday2017-03.jpg",
-  "INS Vikramaditya": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/INS_Vikramaditya_%28R33%29_with_a_Sea_Harrier.jpg/960px-INS_Vikramaditya_%28R33%29_with_a_Sea_Harrier.jpg",
-  "INS Vikrant": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/IAC1_Vikrant_at_Cochin.jpg/960px-IAC1_Vikrant_at_Cochin.jpg",
-  "Charles de Gaulle (R91)": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/French_aircraft_carrier_Charles_de_Gaulle_%28R91%29_underway_in_the_Ionian_Sea_on_17_March_2022_%28220317-N-DH793-1322%29cropped.JPG/960px-French_aircraft_carrier_Charles_de_Gaulle_%28R91%29_underway_in_the_Ionian_Sea_on_17_March_2022_%28220317-N-DH793-1322%29cropped.JPG",
-  "ITS Trieste (L9890)": "https://upload.wikimedia.org/wikipedia/commons/3/34/Italian_LHD_Trieste.jpg",
-  "ITS Cavour (C550)": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Cavour_%28550%29.jpg/960px-Cavour_%28550%29.jpg",
-  "JS Izumo (DDH-183)": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/JS_Izumo%EF%BC%88DDH-183%EF%BC%89seen_from_the_sky_10-03-2021.jpg/960px-JS_Izumo%EF%BC%88DDH-183%EF%BC%89seen_from_the_sky_10-03-2021.jpg",
-  "JS Kaga (DDH-184)": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/JS_Kaga%EF%BC%88DDH-184%EF%BC%89after_renovation.jpg/960px-JS_Kaga%EF%BC%88DDH-184%EF%BC%89after_renovation.jpg"
-};
-
 const ships = [
-  {"Nimi":"USS Gerald R. Ford (CVN-78)","Riik":"USA","Veeväljasurve":"~100 000 tonni (täislastis)","Relvastus":"2× RIM-162 ESSM raketiheitjat, 2× RIM-116 RAM raketiheitjat, 3× Phalanx CIWS, kuni 75+ õhusõidukit","Klass":"Gerald R. Ford-klass","lat":36.95,"lng":-76.33},
-  {"Nimi":"USS Nimitz (CVN-68) ja teised Nimitzi klassi laevad","Riik":"USA","Veeväljasurve":"~97 000–104 000 tonni (täislastis)","Relvastus":"RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit","Klass":"Nimitzi klass","lat":32.68,"lng":-117.13},
-  {"Nimi":"Fujian","Riik":"Hiina","Veeväljasurve":"~80 000–85 000 tonni (täislastis)","Relvastus":"HQ-10 õhutõrjeraketid, Type 1130 CIWS, ~40–50 õhusõidukit (sh J-15/J-35 hävitajad, KJ-600 AEW)","Klass":"Type 003","lat":31.35,"lng":121.85},
-  {"Nimi":"Shandong","Riik":"Hiina","Veeväljasurve":"~66 000–70 000 tonni (täislastis)","Relvastus":"HQ-10 õhutõrjeraketid, Type 1130 CIWS, ~44 õhusõidukit (peamiselt J-15)","Klass":"Type 002","lat":18.25,"lng":109.5},
-  {"Nimi":"HMS Queen Elizabeth (R08)","Riik":"Suurbritannia","Veeväljasurve":"~65 000 tonni (täislastis)","Relvastus":"Phalanx CIWS, 30mm automaatkahurid, kuni 36 F-35B hävitajat ja helikopterid","Klass":"Queen Elizabethi klass","lat":50.82,"lng":-1.15},
-  {"Nimi":"HMS Prince of Wales (R09)","Riik":"Suurbritannia","Veeväljasurve":"~65 000 tonni (täislastis)","Relvastus":"Phalanx CIWS, 30mm automaatkahurid, kuni 36 F-35B hävitajat ja helikopterid","Klass":"Queen Elizabethi klass","lat":50.72,"lng":-1.35},
-  {"Nimi":"Liaoning","Riik":"Hiina","Veeväljasurve":"~60 000–66 000 tonni (täislastis)","Relvastus":"HQ-10 õhutõrjeraketid, Type 1130 CIWS, ~24–36 õhusõidukit (J-15 ja helikopterid)","Klass":"Type 001 (endine Riga/Varyag, Kuznetsovi klassi baasil)","lat":36.07,"lng":120.38},
-  {"Nimi":"Admiral Kuznetsov","Riik":"Venemaa","Veeväljasurve":"~58 600–59 100 tonni (täislastis)","Relvastus":"12× P-700 Granit tiibraketti, Kashtan CIWS, Klinok õhutõrjeraketisüsteem, ~24 Su-33/MiG-29K hävitajat (praegu mitteoperatiivne)","Klass":"Kuznetsovi klass (Projekt 1143.5)","lat":69.07,"lng":33.42},
-  {"Nimi":"INS Vikramaditya","Riik":"India","Veeväljasurve":"~45 400 tonni (täislastis)","Relvastus":"AK-630 CIWS, Barak-1 õhutõrjeraketid, ~26 MiG-29K hävitajat ja helikopterid","Klass":"Kiievi klass (ümberehitatud endine Admiral Gorškov)","lat":14.8,"lng":74.13},
-  {"Nimi":"INS Vikrant","Riik":"India","Veeväljasurve":"~43 000–45 000 tonni (täislastis)","Relvastus":"Barak-8 õhutõrjeraketid, AK-630 CIWS, ~30 õhusõidukit (MiG-29K, Rafale M tellitud, helikopterid)","Klass":"Vikranti klass (IAC-1)","lat":9.97,"lng":76.28},
-  {"Nimi":"Charles de Gaulle (R91)","Riik":"Prantsusmaa","Veeväljasurve":"~42 500 tonni (täislastis)","Relvastus":"Aster 15 õhutõrjeraketid, Sadral (Mistral) raketiheitjad, 8× 20mm kahurit, 30–40 õhusõidukit (Rafale M)","Klass":"Charles de Gaulle'i klass (tuumaenergial)","lat":43.12,"lng":5.93},
-  {"Nimi":"ITS Trieste (L9890)","Riik":"Itaalia","Veeväljasurve":"~38 000 tonni (täislastis)","Relvastus":"Sylver A50 (Aster) raketid, 76mm kahurid, CIWS, F-35B ja helikopterid","Klass":"Trieste klass (LHD)","lat":40.47,"lng":17.23},
-  {"Nimi":"ITS Cavour (C550)","Riik":"Itaalia","Veeväljasurve":"~27 000–30 000 tonni (täislastis)","Relvastus":"Aster 15 (SAAM) õhutõrjesüsteem, 2× 76mm Super Rapid kahurit, ~16 õhusõidukit (F-35B, AV-8B Harrier)","Klass":"Cavour klass","lat":40.4,"lng":17.05},
-  {"Nimi":"JS Izumo (DDH-183)","Riik":"Jaapan","Veeväljasurve":"~26 000–27 000 tonni (täislastis)","Relvastus":"2× Phalanx CIWS, 2× SeaRAM raketiheitjat, kuni 28 helikopterit / F-35B (ümberehitus käimas)","Klass":"Izumo klass","lat":35.28,"lng":139.67},
-  {"Nimi":"JS Kaga (DDH-184)","Riik":"Jaapan","Veeväljasurve":"~26 000–27 000 tonni (täislastis)","Relvastus":"2× Phalanx CIWS, 2× SeaRAM raketiheitjat, kuni 28 helikopterit / F-35B (katsetused lõpetatud 2024)","Klass":"Izumo klass","lat":33.16,"lng":129.72}
+  {"Nimi":"USS Gerald R. Ford (CVN-78)","Riik":"USA","Veeväljasurve":"~100 000 tonni (täislastis)","Relvastus":"2× RIM-162 ESSM raketiheitjat, 2× RIM-116 RAM raketiheitjat, 3× Phalanx CIWS, kuni 75+ õhusõidukit","Klass":"Gerald R. Ford-klass","lat":36.95,"lng":-76.33,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/USS_Gerald_R._Ford_%28CVN-78%29_underway_in_the_Atlantic_Ocean_on_9_October_2022_%28221009-N-TL968-1248%29.JPG/960px-USS_Gerald_R._Ford_%28CVN-78%29_underway_in_the_Atlantic_Ocean_on_9_October_2022_%28221009-N-TL968-1248%29.JPG"},
+  {"Nimi":"USS Nimitz (CVN-68)","Riik":"USA","Veeväljasurve":"~97 000–104 000 tonni (täislastis)","Relvastus":"RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit","Klass":"Nimitzi klass","lat":32.68,"lng":-117.13,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/USS_Nimitz_%28CVN-68%29.jpg/960px-USS_Nimitz_%28CVN-68%29.jpg"},
+  {"Nimi":"USS Dwight D. Eisenhower (CVN-69)","Riik":"USA","Veeväljasurve":"~97 000 tonni (täislastis)","Relvastus":"RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit","Klass":"Nimitzi klass","lat":36.95,"lng":-76.33,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/US_Navy_060617-N-0490C-010_The_Nimitz-class_aircraft_carrier_USS_Dwight_D._Eisenhower_%28CVN_69%29_conducts_a_turn_in_the_Atlantic_Ocean._Eisenhower_is_underway_conducting_routine_carrier_operations.jpg/960px-US_Navy_060617-N-0490C-010_The_Nimitz-class_aircraft_carrier_USS_Dwight_D._Eisenhower_%28CVN_69%29_conducts_a_turn_in_the_Atlantic_Ocean._Eisenhower_is_underway_conducting_routine_carrier_operations.jpg"},
+  {"Nimi":"USS Carl Vinson (CVN-70)","Riik":"USA","Veeväljasurve":"~97 000 tonni (täislastis)","Relvastus":"RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit","Klass":"Nimitzi klass","lat":32.68,"lng":-117.13,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/USS_Carl_Vinson_%28CVN-70%29_underway_in_the_Pacific_Ocean_on_31_May_2015.JPG/960px-USS_Carl_Vinson_%28CVN-70%29_underway_in_the_Pacific_Ocean_on_31_May_2015.JPG"},
+  {"Nimi":"USS Theodore Roosevelt (CVN-71)","Riik":"USA","Veeväljasurve":"~97 000 tonni (täislastis)","Relvastus":"RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit","Klass":"Nimitzi klass","lat":32.68,"lng":-117.13,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/200125-N-LH674-1073_USS_Theodore_Roosevelt_%28CVN-71%29.jpg/960px-200125-N-LH674-1073_USS_Theodore_Roosevelt_%28CVN-71%29.jpg"},
+  {"Nimi":"USS Abraham Lincoln (CVN-72)","Riik":"USA","Veeväljasurve":"~97 000 tonni (täislastis)","Relvastus":"RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit","Klass":"Nimitzi klass","lat":32.68,"lng":-117.13,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/USS_Abraham_Lincoln_%28CVN-72%29_underway_in_the_Atlantic_Ocean_on_30_January_2019_%28190130-N-PW716-1312%29.JPG/960px-USS_Abraham_Lincoln_%28CVN-72%29_underway_in_the_Atlantic_Ocean_on_30_January_2019_%28190130-N-PW716-1312%29.JPG"},
+  {"Nimi":"USS George Washington (CVN-73)","Riik":"USA","Veeväljasurve":"~97 000 tonni (täislastis)","Relvastus":"RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit","Klass":"Nimitzi klass","lat":36.95,"lng":-76.33,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/US_Navy_031209-N-5319A-002_The_Norfolk%2C_Va._based_nuclear_powered_aircraft_carrier_USS_George_Washington_%28CVN_73%29_underway.jpg/960px-US_Navy_031209-N-5319A-002_The_Norfolk%2C_Va._based_nuclear_powered_aircraft_carrier_USS_George_Washington_%28CVN_73%29_underway.jpg"},
+  {"Nimi":"USS John C. Stennis (CVN-74)","Riik":"USA","Veeväljasurve":"~97 000 tonni (täislastis)","Relvastus":"RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit","Klass":"Nimitzi klass","lat":47.57,"lng":-122.63,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/170905-N-DA693-034_%2836294933944%29.jpg/960px-170905-N-DA693-034_%2836294933944%29.jpg"},
+  {"Nimi":"USS Harry S. Truman (CVN-75)","Riik":"USA","Veeväljasurve":"~97 000 tonni (täislastis)","Relvastus":"RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit","Klass":"Nimitzi klass","lat":36.95,"lng":-76.33,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/USS_Harry_S._Truman_%28CVN-75%29_underway_in_the_Atlantic_Ocean_on_11_September_2018_%28180911-N-EA818-2106%29.JPG/960px-USS_Harry_S._Truman_%28CVN-75%29_underway_in_the_Atlantic_Ocean_on_11_September_2018_%28180911-N-EA818-2106%29.JPG"},
+  {"Nimi":"USS Ronald Reagan (CVN-76)","Riik":"USA","Veeväljasurve":"~97 000 tonni (täislastis)","Relvastus":"RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit","Klass":"Nimitzi klass","lat":35.28,"lng":139.67,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/USSRONALDREAGANgoodshot.jpg/960px-USSRONALDREAGANgoodshot.jpg"},
+  {"Nimi":"USS George H.W. Bush (CVN-77)","Riik":"USA","Veeväljasurve":"~97 000 tonni (täislastis)","Relvastus":"RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit","Klass":"Nimitzi klass","lat":36.95,"lng":-76.33,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/US_Navy_110129-N-3885H-158_USS_George_H.W._Bush_%28CVN_77%29_is_underway_in_the_Atlantic_Ocean.jpg/960px-US_Navy_110129-N-3885H-158_USS_George_H.W._Bush_%28CVN_77%29_is_underway_in_the_Atlantic_Ocean.jpg"},
+  {"Nimi":"USS Enterprise (CVN-65)","Riik":"USA","Veeväljasurve":"~93 284 tonni (täislastis, kasutusest kõrvaldatud 2012)","Relvastus":"RIM-7 Sea Sparrow raketid, Phalanx CIWS, kuni 90 õhusõidukit","Klass":"Enterprise-klass (unikaalne)","lat":36.95,"lng":-76.33,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/USS_Enterprise_%28CVN-65%29_underway_in_the_Atlantic_Ocean_on_14_June_2004_%28040614-N-0119G-020%29.jpg/960px-USS_Enterprise_%28CVN-65%29_underway_in_the_Atlantic_Ocean_on_14_June_2004_%28040614-N-0119G-020%29.jpg"},
+  {"Nimi":"USS Kitty Hawk (CV-63)","Riik":"USA","Veeväljasurve":"~83 000–84 000 tonni (täislastis, kasutusest kõrvaldatud 2009)","Relvastus":"RIM-7 Sea Sparrow raketid, Phalanx CIWS, kuni 85 õhusõidukit","Klass":"Kitty Hawki klass","lat":47.57,"lng":-122.63,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/US_Navy_050517-N-0120R-127_The_conventionally_powered_aircraft_carrier_USS_Kitty_Hawk_%28CV_63%29_sails_past_a_small_group_of_Japanese_fishing_vessels_and_heads_toward_Sagami_Bay.jpg/960px-US_Navy_050517-N-0120R-127_The_conventionally_powered_aircraft_carrier_USS_Kitty_Hawk_%28CV_63%29_sails_past_a_small_group_of_Japanese_fishing_vessels_and_heads_toward_Sagami_Bay.jpg"},
+  {"Nimi":"USS John F. Kennedy (CV-67)","Riik":"USA","Veeväljasurve":"~82 655 tonni (täislastis, kasutusest kõrvaldatud 2007)","Relvastus":"RIM-7 Sea Sparrow raketid, Phalanx CIWS, kuni 80 õhusõidukit","Klass":"Kitty Hawki klass (variant)","lat":39.95,"lng":-75.15,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/USS_John_F._Kennedy_%28CV-67%29_departs_Naval_Station_Mayport_on_11_November_2003.jpg/960px-USS_John_F._Kennedy_%28CV-67%29_departs_Naval_Station_Mayport_on_11_November_2003.jpg"},
+  {"Nimi":"Fujian","Riik":"Hiina","Veeväljasurve":"~80 000–85 000 tonni (täislastis)","Relvastus":"HQ-10 õhutõrjeraketid, Type 1130 CIWS, ~40–50 õhusõidukit (sh J-15/J-35 hävitajad, KJ-600 AEW)","Klass":"Type 003","lat":31.35,"lng":121.85,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/PLAN_CV-18_Fujian_20250911.jpg/960px-PLAN_CV-18_Fujian_20250911.jpg"},
+  {"Nimi":"Shandong","Riik":"Hiina","Veeväljasurve":"~66 000–70 000 tonni (täislastis)","Relvastus":"HQ-10 õhutõrjeraketid, Type 1130 CIWS, ~44 õhusõidukit (peamiselt J-15)","Klass":"Type 002","lat":18.25,"lng":109.5,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Chinese_aircraft_carrier_Shandong_in_2019.jpg/960px-Chinese_aircraft_carrier_Shandong_in_2019.jpg"},
+  {"Nimi":"Liaoning","Riik":"Hiina","Veeväljasurve":"~60 000–66 000 tonni (täislastis)","Relvastus":"HQ-10 õhutõrjeraketid, Type 1130 CIWS, ~24–36 õhusõidukit (J-15 ja helikopterid)","Klass":"Type 001 (endine Riga/Varyag, Kuznetsovi klassi baasil)","lat":36.07,"lng":120.38,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Aircraft_Carrier_Liaoning_CV-16.jpg/960px-Aircraft_Carrier_Liaoning_CV-16.jpg"},
+  {"Nimi":"HMS Queen Elizabeth (R08)","Riik":"Suurbritannia","Veeväljasurve":"~65 000 tonni (täislastis)","Relvastus":"Phalanx CIWS, 30mm automaatkahurid, kuni 36 F-35B hävitajat ja helikopterid","Klass":"Queen Elizabethi klass","lat":50.82,"lng":-1.15,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/HMS_Queen_Elizabeth_in_Gibraltar_-_2018_%2828386226189%29.jpg/960px-HMS_Queen_Elizabeth_in_Gibraltar_-_2018_%2828386226189%29.jpg"},
+  {"Nimi":"HMS Prince of Wales (R09)","Riik":"Suurbritannia","Veeväljasurve":"~65 000 tonni (täislastis)","Relvastus":"Phalanx CIWS, 30mm automaatkahurid, kuni 36 F-35B hävitajat ja helikopterid","Klass":"Queen Elizabethi klass","lat":50.72,"lng":-1.35,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/VX-23_F-35B_approaches_HMS_Prince_of_Wales.jpg/960px-VX-23_F-35B_approaches_HMS_Prince_of_Wales.jpg"},
+  {"Nimi":"Admiral Kuznetsov","Riik":"Venemaa","Veeväljasurve":"~58 600–59 100 tonni (täislastis)","Relvastus":"12× P-700 Granit tiibraketti, Kashtan CIWS, Klinok õhutõrjeraketisüsteem, ~24 Su-33/MiG-29K hävitajat (praegu mitteoperatiivne)","Klass":"Kuznetsovi klass (Projekt 1143.5)","lat":69.07,"lng":33.42,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/MilitarySportsHoliday2017-03.jpg/960px-MilitarySportsHoliday2017-03.jpg"},
+  {"Nimi":"USS America (LHA-6)","Riik":"USA","Veeväljasurve":"~45 000 tonni (täislastis)","Relvastus":"2× RAM raketiheitjat, 2× Phalanx CIWS, kuni 20 F-35B ja helikopterid","Klass":"America klass","lat":32.68,"lng":-117.13,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/USS_America_%28LHA-6%29_F-35B_loaded.jpg/960px-USS_America_%28LHA-6%29_F-35B_loaded.jpg"},
+  {"Nimi":"USS Tripoli (LHA-7)","Riik":"USA","Veeväljasurve":"~45 000 tonni (täislastis)","Relvastus":"2× RAM raketiheitjat, 2× Phalanx CIWS, kuni 20 F-35B ja helikopterid","Klass":"America klass","lat":32.68,"lng":-117.13,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/USS_Tripoli_%28LHA-7%29_underway_in_the_Gulf_of_Mexico_on_15_July_2019_%28190715-O-N0101-115%29.JPG/960px-USS_Tripoli_%28LHA-7%29_underway_in_the_Gulf_of_Mexico_on_15_July_2019_%28190715-O-N0101-115%29.JPG"},
+  {"Nimi":"USS Bougainville (LHA-8)","Riik":"USA","Veeväljasurve":"~45 000 tonni (täislastis)","Relvastus":"2× RAM raketiheitjat, 2× Phalanx CIWS, kuni 20 F-35B ja helikopterid","Klass":"America klass","lat":32.68,"lng":-117.13,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/USS_Bougainville_%28LHA-8%29_artist_depiction.jpg/960px-USS_Bougainville_%28LHA-8%29_artist_depiction.jpg"},
+  {"Nimi":"INS Vikramaditya","Riik":"India","Veeväljasurve":"~45 400 tonni (täislastis)","Relvastus":"AK-630 CIWS, Barak-1 õhutõrjeraketid, ~26 MiG-29K hävitajat ja helikopterid","Klass":"Kiievi klass (ümberehitatud endine Admiral Gorškov)","lat":14.8,"lng":74.13,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/INS_Vikramaditya_%28R33%29_with_a_Sea_Harrier.jpg/960px-INS_Vikramaditya_%28R33%29_with_a_Sea_Harrier.jpg"},
+  {"Nimi":"USS Makin Island (LHD-8)","Riik":"USA","Veeväljasurve":"~45 700 tonni (täislastis)","Relvastus":"2× RAM raketiheitjat, 2× Phalanx CIWS, kuni 30 õhusõidukit (F-35B, helikopterid)","Klass":"Wasp klass (muudetud, gaasiturbiiniga)","lat":32.68,"lng":-117.13,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Amphibious_assault_ship_USS_Makin_Island_%28LHD_8%29_%28cropped%29.jpg/960px-Amphibious_assault_ship_USS_Makin_Island_%28LHD_8%29_%28cropped%29.jpg"},
+  {"Nimi":"INS Vikrant","Riik":"India","Veeväljasurve":"~43 000–45 000 tonni (täislastis)","Relvastus":"Barak-8 õhutõrjeraketid, AK-630 CIWS, ~30 õhusõidukit (MiG-29K, Rafale M tellitud, helikopterid)","Klass":"Vikranti klass (IAC-1)","lat":9.97,"lng":76.28,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/IAC1_Vikrant_at_Cochin.jpg/960px-IAC1_Vikrant_at_Cochin.jpg"},
+  {"Nimi":"Kiev (muuseumlaev, Tianjin)","Riik":"Venemaa (NSVL)","Veeväljasurve":"~43 000 tonni (täislastis, kasutusest kõrvaldatud 1993)","Relvastus":"P-500 Bazalt tiibraketid, õhutõrjeraketid, Jak-38 hävitajad ja helikopterid","Klass":"Kiievi klass (Projekt 1143)","lat":39,"lng":117.7,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Aircraft_carrier_%22Kiev%22_in_1986.jpeg/960px-Aircraft_carrier_%22Kiev%22_in_1986.jpeg"},
+  {"Nimi":"Minsk (muuseumlaev, endine Shenzhen)","Riik":"Venemaa (NSVL)","Veeväljasurve":"~43 000 tonni (täislastis, kasutusest kõrvaldatud 1993)","Relvastus":"P-500 Bazalt tiibraketid, õhutõrjeraketid, Jak-38 hävitajad ja helikopterid","Klass":"Kiievi klass (Projekt 1143)","lat":22.5,"lng":114.1,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Minsk_aircraft_carrier.jpg/960px-Minsk_aircraft_carrier.jpg"},
+  {"Nimi":"Charles de Gaulle (R91)","Riik":"Prantsusmaa","Veeväljasurve":"~42 500 tonni (täislastis)","Relvastus":"Aster 15 õhutõrjeraketid, Sadral (Mistral) raketiheitjad, 8× 20mm kahurit, 30–40 õhusõidukit (Rafale M)","Klass":"Charles de Gaulle'i klass (tuumaenergial)","lat":43.12,"lng":5.93,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/French_aircraft_carrier_Charles_de_Gaulle_%28R91%29_underway_in_the_Ionian_Sea_on_17_March_2022_%28220317-N-DH793-1322%29cropped.JPG/960px-French_aircraft_carrier_Charles_de_Gaulle_%28R91%29_underway_in_the_Ionian_Sea_on_17_March_2022_%28220317-N-DH793-1322%29cropped.JPG"},
+  {"Nimi":"USS Wasp (LHD-1)","Riik":"USA","Veeväljasurve":"~41 000 tonni (täislastis)","Relvastus":"2× RAM raketiheitjat, 2× Phalanx CIWS, kuni 20 F-35B/AV-8B ja helikopterid","Klass":"Wasp klass","lat":33.16,"lng":129.72,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/USS_Wasp_%28LHD-1%29_Osprey_2.jpg/960px-USS_Wasp_%28LHD-1%29_Osprey_2.jpg"},
+  {"Nimi":"USS Essex (LHD-2)","Riik":"USA","Veeväljasurve":"~41 000 tonni (täislastis)","Relvastus":"2× RAM raketiheitjat, 2× Phalanx CIWS, kuni 20 F-35B/AV-8B ja helikopterid","Klass":"Wasp klass","lat":32.68,"lng":-117.13,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/USS_Essex_LHD_2.jpg/960px-USS_Essex_LHD_2.jpg"},
+  {"Nimi":"USS Kearsarge (LHD-3)","Riik":"USA","Veeväljasurve":"~41 000 tonni (täislastis)","Relvastus":"2× RAM raketiheitjat, 2× Phalanx CIWS, kuni 20 F-35B/AV-8B ja helikopterid","Klass":"Wasp klass","lat":36.95,"lng":-76.33,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/US_Navy_040620-N-1512S-218_The_amphibious_assault_ship_USS_Kearsarge_%28LHD_3%29_underway_while_transiting_the_Straits_of_Gibraltar_and_into_the_Mediterranean_Sea.jpg/960px-US_Navy_040620-N-1512S-218_The_amphibious_assault_ship_USS_Kearsarge_%28LHD_3%29_underway_while_transiting_the_Straits_of_Gibraltar_and_into_the_Mediterranean_Sea.jpg"},
+  {"Nimi":"USS Boxer (LHD-4)","Riik":"USA","Veeväljasurve":"~41 000 tonni (täislastis)","Relvastus":"2× RAM raketiheitjat, 2× Phalanx CIWS, kuni 20 F-35B/AV-8B ja helikopterid","Klass":"Wasp klass","lat":32.68,"lng":-117.13,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/US_Navy_110818-N-ZS026-035_The_USS_Boxer_steams_across_the_Indian_Ocean.jpg/960px-US_Navy_110818-N-ZS026-035_The_USS_Boxer_steams_across_the_Indian_Ocean.jpg"},
+  {"Nimi":"USS Bataan (LHD-5)","Riik":"USA","Veeväljasurve":"~41 000 tonni (täislastis)","Relvastus":"2× RAM raketiheitjat, 2× Phalanx CIWS, kuni 20 F-35B/AV-8B ja helikopterid","Klass":"Wasp klass","lat":36.95,"lng":-76.33,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/USS_Bataan_%28LHD-5%29%3B10080504.jpg/960px-USS_Bataan_%28LHD-5%29%3B10080504.jpg"},
+  {"Nimi":"USS Iwo Jima (LHD-7)","Riik":"USA","Veeväljasurve":"~41 000 tonni (täislastis)","Relvastus":"2× RAM raketiheitjat, 2× Phalanx CIWS, kuni 20 F-35B/AV-8B ja helikopterid","Klass":"Wasp klass","lat":30.4,"lng":-81.4,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/US_Navy_080906-N-1082Z-029_The_multi-purpose_amphibious_assault_ship_USS_Iwo_Jima_%28LHD_7%29_transits_the_Atlantic_Ocean.jpg/960px-US_Navy_080906-N-1082Z-029_The_multi-purpose_amphibious_assault_ship_USS_Iwo_Jima_%28LHD_7%29_transits_the_Atlantic_Ocean.jpg"},
+  {"Nimi":"USS Tarawa (LHA-1)","Riik":"USA","Veeväljasurve":"~39 400 tonni (täislastis, kasutusest kõrvaldatud 2009)","Relvastus":"Sea Sparrow raketid, Phalanx CIWS, AV-8B Harrier ja helikopterid","Klass":"Tarawa klass","lat":32.68,"lng":-117.13,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/US_Navy_020628-N-3228G-002_USS_Tarawa_%28LHA_1%29.jpg/960px-US_Navy_020628-N-3228G-002_USS_Tarawa_%28LHA_1%29.jpg"},
+  {"Nimi":"ITS Trieste (L9890)","Riik":"Itaalia","Veeväljasurve":"~38 000 tonni (täislastis)","Relvastus":"Sylver A50 (Aster) raketid, 76mm kahurid, CIWS, F-35B ja helikopterid","Klass":"Trieste klass (LHD)","lat":40.47,"lng":17.23,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Italian_LHD_Trieste.jpg/960px-Italian_LHD_Trieste.jpg"},
+  {"Nimi":"NAe São Paulo (A12)","Riik":"Brasiilia","Veeväljasurve":"~37 085 tonni (täislastis, kasutusest kõrvaldatud 2018, uputatud 2023)","Relvastus":"Crotale õhutõrjeraketid, kahurid, A-4 Skyhawk hävitajad ja helikopterid","Klass":"Clemenceau klass (endine Prantsuse Foch)","lat":22.9,"lng":-43.2,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Sao_Paulo_at_sea_%2811522051596%29.jpg/960px-Sao_Paulo_at_sea_%2811522051596%29.jpg"},
+  {"Nimi":"INS Viraat","Riik":"India","Veeväljasurve":"~28 700 tonni (täislastis, kasutusest kõrvaldatud 2017)","Relvastus":"Barak-1 õhutõrjeraketid, CIWS, Sea Harrier hävitajad ja helikopterid","Klass":"Centauri klass (endine HMS Hermes)","lat":18.9,"lng":72.8,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/INS_Viraat_front_view.jpg/960px-INS_Viraat_front_view.jpg"},
+  {"Nimi":"ITS Cavour (C550)","Riik":"Itaalia","Veeväljasurve":"~27 000–30 000 tonni (täislastis)","Relvastus":"Aster 15 (SAAM) õhutõrjesüsteem, 2× 76mm Super Rapid kahurit, ~16 õhusõidukit (F-35B, AV-8B Harrier)","Klass":"Cavour klass","lat":40.4,"lng":17.05,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Cavour_%28550%29.jpg/960px-Cavour_%28550%29.jpg"},
+  {"Nimi":"HMAS Canberra (L02)","Riik":"Austraalia","Veeväljasurve":"~27 500 tonni (täislastis)","Relvastus":"Phalanx CIWS, 25mm kahurid, kuni 18 helikopterit","Klass":"Canberra klass","lat":-33.85,"lng":151.2,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/HMAS_Canberra_with_a_USAF_MH-60_during_Talisman_Sabre_2021.jpg/960px-HMAS_Canberra_with_a_USAF_MH-60_during_Talisman_Sabre_2021.jpg"},
+  {"Nimi":"HMAS Adelaide (L01)","Riik":"Austraalia","Veeväljasurve":"~27 500 tonni (täislastis)","Relvastus":"Phalanx CIWS, 25mm kahurid, kuni 18 helikopterit","Klass":"Canberra klass","lat":-33.86,"lng":151.22,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/MRF-D_Ospreys_touch_down_on_HMAS_Adelaide.jpg/960px-MRF-D_Ospreys_touch_down_on_HMAS_Adelaide.jpg"},
+  {"Nimi":"TCG Anadolu","Riik":"Türgi","Veeväljasurve":"~27 436 tonni (täislastis)","Relvastus":"Gökdeniz CIWS, Hisar õhutõrjeraketid, kuni 12 TB3/Bayraktar Kızılelma droonõhusõidukit ja helikopterid","Klass":"Anadolu klass (Juan Carlos I baasil)","lat":36.58,"lng":28.05,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Turkish_Navy_amphibious_assault_ship_TCG_Anadolu_%28L400%29_steams_in_the_Mediterranean_Sea.jpg/960px-Turkish_Navy_amphibious_assault_ship_TCG_Anadolu_%28L400%29_steams_in_the_Mediterranean_Sea.jpg"},
+  {"Nimi":"Juan Carlos I (L-61)","Riik":"Hispaania","Veeväljasurve":"~27 079 tonni (täislastis)","Relvastus":"MSI-DS 30mm automaatkahurid, AV-8B Harrier / helikopterid","Klass":"Juan Carlos I klass","lat":36.62,"lng":-6.35,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Spanish_amphibious_assault_ship_Juan_Carlos_I_%28L-61%29_underway_in_the_Adriatic_Sea%2C_22_February_2023_%28230222-N-MW880-1248%29.JPG/960px-Spanish_amphibious_assault_ship_Juan_Carlos_I_%28L-61%29_underway_in_the_Adriatic_Sea%2C_22_February_2023_%28230222-N-MW880-1248%29.JPG"},
+  {"Nimi":"JS Izumo (DDH-183)","Riik":"Jaapan","Veeväljasurve":"~26 000–27 000 tonni (täislastis)","Relvastus":"2× Phalanx CIWS, 2× SeaRAM raketiheitjat, kuni 28 helikopterit / F-35B (ümberehitus käimas)","Klass":"Izumo klass","lat":35.28,"lng":139.67,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/JS_Izumo%EF%BC%88DDH-183%EF%BC%89seen_from_the_sky_10-03-2021.jpg/960px-JS_Izumo%EF%BC%88DDH-183%EF%BC%89seen_from_the_sky_10-03-2021.jpg"},
+  {"Nimi":"JS Kaga (DDH-184)","Riik":"Jaapan","Veeväljasurve":"~26 000–27 000 tonni (täislastis)","Relvastus":"2× Phalanx CIWS, 2× SeaRAM raketiheitjat, kuni 28 helikopterit / F-35B (katsetused lõpetatud 2024)","Klass":"Izumo klass","lat":33.16,"lng":129.72,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/JS_Kaga%EF%BC%88DDH-184%EF%BC%89after_renovation.jpg/960px-JS_Kaga%EF%BC%88DDH-184%EF%BC%89after_renovation.jpg"},
+  {"Nimi":"ENS Gamal Abdel Nasser (L1010)","Riik":"Egiptus","Veeväljasurve":"~21 300 tonni (täislastis)","Relvastus":"Simbad õhutõrjeraketid, 30mm kahurid, kuni 16 helikopterit","Klass":"Mistrali klass (endine Vene tellimus)","lat":31.2,"lng":29.9,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/ENS_Gamal_Adbel_Nasser_%28L_1010%29_%2852322694653%29_%28cropped%29.jpg/960px-ENS_Gamal_Adbel_Nasser_%28L_1010%29_%2852322694653%29_%28cropped%29.jpg"},
+  {"Nimi":"ENS Anwar El Sadat (L1020)","Riik":"Egiptus","Veeväljasurve":"~21 300 tonni (täislastis)","Relvastus":"Simbad õhutõrjeraketid, 30mm kahurid, kuni 16 helikopterit","Klass":"Mistrali klass (endine Vene tellimus)","lat":31.21,"lng":29.92,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/%D0%A1%D0%B5%D0%B2%D0%B0%D1%81%D1%82%D0%BE%D0%BF%D0%BE%D0%BB%D1%8C_-_Saint-Nazaire_d%C3%A9cembre_2014.jpg/960px-%D0%A1%D0%B5%D0%B2%D0%B0%D1%81%D1%82%D0%BE%D0%BF%D0%BE%D0%BB%D1%8C_-_Saint-Nazaire_d%C3%A9cembre_2014.jpg"},
+  {"Nimi":"ROKS Dokdo","Riik":"Lõuna-Korea","Veeväljasurve":"~19 000 tonni (täislastis)","Relvastus":"RIM-116 RAM raketiheitja, Goalkeeper CIWS, kuni 15 helikopterit","Klass":"Dokdo klass","lat":35.1,"lng":129.05,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/%ED%95%B4%EA%B5%B0_%EB%8F%85%EB%8F%84%ED%95%A8_%287438321572%29.jpg/960px-%ED%95%B4%EA%B5%B0_%EB%8F%85%EB%8F%84%ED%95%A8_%287438321572%29.jpg"},
+  {"Nimi":"ROKS Marado","Riik":"Lõuna-Korea","Veeväljasurve":"~19 000 tonni (täislastis)","Relvastus":"RIM-116 RAM raketiheitja, Goalkeeper CIWS, kuni 15 helikopterit","Klass":"Dokdo klass","lat":35.12,"lng":129.03,"img":"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/ROKS_Marado_exercising_with_US_helicopters_in_June_2022.jpg/960px-ROKS_Marado_exercising_with_US_helicopters_in_June_2022.jpg"}
 ];
 
 // Grupeeri riigi kaupa
 const byCountry = {};
 ships.forEach(s => {
-  s.img = images[s.Nimi] || "";
   (byCountry[s.Riik] = byCountry[s.Riik] || []).push(s);
 });
 
 // --- Kaart ---
-const map = L.map('map', { scrollWheelZoom: false }).setView([25, 15], 2);
+const worldBounds = L.latLngBounds([-85, -180], [85, 180]);
+
+const map = L.map('map', {
+  scrollWheelZoom: false,
+  minZoom: 2,
+  maxZoom: 18,
+  maxBounds: worldBounds,
+  maxBoundsViscosity: 1.0,
+  worldCopyJump: false
+}).setView([25, 15], 2);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 18,
+  noWrap: true,
+  bounds: worldBounds,
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
+
+map.setMaxBounds(worldBounds);
 
 function cardHtml(s){
   return `
@@ -423,23 +464,40 @@ ships.forEach(s => {
     .bindPopup(shipPopupHtml(s), { maxWidth: 260 });
 });
 
-// --- Legend ---
+// --- Legend (filtreeriv) ---
+const sortedCountries = Object.entries(byCountry).sort((a,b) => b[1].length - a[1].length);
 const legend = document.getElementById('legend');
-legend.innerHTML = Object.entries(byCountry)
-  .sort((a,b) => b[1].length - a[1].length)
-  .map(([country, list]) => `<span class="tag">${country} — ${list.length}</span>`)
-  .join('');
-
-// --- Kõik grupid all ---
 const allGroups = document.getElementById('allGroups');
-allGroups.innerHTML = Object.entries(byCountry).map(([country, list]) => `
-  <div style="margin:0 0 32px;">
-    <h3 style="font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.08em;font-size:13px;color:var(--accent-dark);margin:0 0 12px;">${country}</h3>
-    <div class="grid">
-      ${list.map(cardHtml).join('')}
+let activeCountry = null;
+
+function renderLegend(){
+  legend.innerHTML = sortedCountries.map(([country, list]) => `
+    <button type="button" class="tag${country === activeCountry ? ' active' : ''}" data-country="${country}">${country} — ${list.length}</button>
+  `).join('');
+  legend.querySelectorAll('.tag').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const c = btn.dataset.country;
+      activeCountry = (activeCountry === c) ? null : c;
+      renderLegend();
+      renderGroups();
+    });
+  });
+}
+
+function renderGroups(){
+  const entries = activeCountry ? sortedCountries.filter(([country]) => country === activeCountry) : sortedCountries;
+  allGroups.innerHTML = entries.map(([country, list]) => `
+    <div style="margin:0 0 32px;">
+      <h3 style="font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.08em;font-size:13px;color:var(--accent-dark);margin:0 0 12px;">${country}</h3>
+      <div class="grid">
+        ${list.map(cardHtml).join('')}
+      </div>
     </div>
-  </div>
-`).join('');
+  `).join('');
+}
+
+renderLegend();
+renderGroups();
 </script>
 </body>
 </html>

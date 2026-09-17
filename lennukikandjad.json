@@ -7,11 +7,95 @@
     "Klass": "Gerald R. Ford-klass"
   },
   {
-    "Nimi": "USS Nimitz (CVN-68) ja teised Nimitzi klassi laevad",
+    "Nimi": "USS Nimitz (CVN-68)",
     "Riik": "USA",
     "Veeväljasurve": "~97 000–104 000 tonni (täislastis)",
     "Relvastus": "RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit",
     "Klass": "Nimitzi klass"
+  },
+  {
+    "Nimi": "USS Dwight D. Eisenhower (CVN-69)",
+    "Riik": "USA",
+    "Veeväljasurve": "~97 000 tonni (täislastis)",
+    "Relvastus": "RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit",
+    "Klass": "Nimitzi klass"
+  },
+  {
+    "Nimi": "USS Carl Vinson (CVN-70)",
+    "Riik": "USA",
+    "Veeväljasurve": "~97 000 tonni (täislastis)",
+    "Relvastus": "RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit",
+    "Klass": "Nimitzi klass"
+  },
+  {
+    "Nimi": "USS Theodore Roosevelt (CVN-71)",
+    "Riik": "USA",
+    "Veeväljasurve": "~97 000 tonni (täislastis)",
+    "Relvastus": "RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit",
+    "Klass": "Nimitzi klass"
+  },
+  {
+    "Nimi": "USS Abraham Lincoln (CVN-72)",
+    "Riik": "USA",
+    "Veeväljasurve": "~97 000 tonni (täislastis)",
+    "Relvastus": "RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit",
+    "Klass": "Nimitzi klass"
+  },
+  {
+    "Nimi": "USS George Washington (CVN-73)",
+    "Riik": "USA",
+    "Veeväljasurve": "~97 000 tonni (täislastis)",
+    "Relvastus": "RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit",
+    "Klass": "Nimitzi klass"
+  },
+  {
+    "Nimi": "USS John C. Stennis (CVN-74)",
+    "Riik": "USA",
+    "Veeväljasurve": "~97 000 tonni (täislastis)",
+    "Relvastus": "RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit",
+    "Klass": "Nimitzi klass"
+  },
+  {
+    "Nimi": "USS Harry S. Truman (CVN-75)",
+    "Riik": "USA",
+    "Veeväljasurve": "~97 000 tonni (täislastis)",
+    "Relvastus": "RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit",
+    "Klass": "Nimitzi klass"
+  },
+  {
+    "Nimi": "USS Ronald Reagan (CVN-76)",
+    "Riik": "USA",
+    "Veeväljasurve": "~97 000 tonni (täislastis)",
+    "Relvastus": "RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit",
+    "Klass": "Nimitzi klass"
+  },
+  {
+    "Nimi": "USS George H.W. Bush (CVN-77)",
+    "Riik": "USA",
+    "Veeväljasurve": "~97 000 tonni (täislastis)",
+    "Relvastus": "RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit",
+    "Klass": "Nimitzi klass"
+  },
+  {
+    "Nimi": "USS Enterprise (CVN-65)",
+    "Riik": "USA",
+    "Veeväljasurve": "~93 284 tonni (täislastis, kasutusest kõrvaldatud 2012)",
+    "Relvastus": "RIM-7 Sea Sparrow raketid, Phalanx CIWS, kuni 90 õhusõidukit",
+    "Klass": "Enterprise-klass (unikaalne)"
+  },
+  {
+    "Nimi": "USS Kitty Hawk (CV-63)",
+    "Riik": "USA",
+    "Veeväljasurve": "~83 000–84 000 tonni (täislastis, kasutusest kõrvaldatud 2009)",
+    "Relvastus": "RIM-7 Sea Sparrow raketid, Phalanx CIWS, kuni 85 õhusõidukit",
+    "Klass": "Kitty Hawki klass"
+  },
+  {
+    "Nimi": "USS John F. Kennedy (CV-67)",
+    "Riik": "USA",
+    "Veeväljasurve": "~82 655 tonni (täislastis, kasutusest kõrvaldatud 2007)",
+    "Relvastus": "RIM-7 Sea Sparrow raketid, Phalanx CIWS, kuni 80 õhusõidukit",
+    "Klass": "Kitty Hawki klass (variant)"
   },
   {
     "Nimi": "Fujian",
@@ -28,6 +112,13 @@
     "Klass": "Type 002"
   },
   {
+    "Nimi": "Liaoning",
+    "Riik": "Hiina",
+    "Veeväljasurve": "~60 000–66 000 tonni (täislastis)",
+    "Relvastus": "HQ-10 õhutõrjeraketid, Type 1130 CIWS, ~24–36 õhusõidukit (J-15 ja helikopterid)",
+    "Klass": "Type 001 (endine Riga/Varyag, Kuznetsovi klassi baasil)"
+  },
+  {
     "Nimi": "HMS Queen Elizabeth (R08)",
     "Riik": "Suurbritannia",
     "Veeväljasurve": "~65 000 tonni (täislastis)",
@@ -42,18 +133,32 @@
     "Klass": "Queen Elizabethi klass"
   },
   {
-    "Nimi": "Liaoning",
-    "Riik": "Hiina",
-    "Veeväljasurve": "~60 000–66 000 tonni (täislastis)",
-    "Relvastus": "HQ-10 õhutõrjeraketid, Type 1130 CIWS, ~24–36 õhusõidukit (J-15 ja helikopterid)",
-    "Klass": "Type 001 (endine Riga/Varyag, Kuznetsovi klassi baasil)"
-  },
-  {
     "Nimi": "Admiral Kuznetsov",
     "Riik": "Venemaa",
     "Veeväljasurve": "~58 600–59 100 tonni (täislastis)",
     "Relvastus": "12× P-700 Granit tiibraketti, Kashtan CIWS, Klinok õhutõrjeraketisüsteem, ~24 Su-33/MiG-29K hävitajat (praegu mitteoperatiivne)",
     "Klass": "Kuznetsovi klass (Projekt 1143.5)"
+  },
+  {
+    "Nimi": "USS America (LHA-6)",
+    "Riik": "USA",
+    "Veeväljasurve": "~45 000 tonni (täislastis)",
+    "Relvastus": "2× RAM raketiheitjat, 2× Phalanx CIWS, kuni 20 F-35B ja helikopterid",
+    "Klass": "America klass"
+  },
+  {
+    "Nimi": "USS Tripoli (LHA-7)",
+    "Riik": "USA",
+    "Veeväljasurve": "~45 000 tonni (täislastis)",
+    "Relvastus": "2× RAM raketiheitjat, 2× Phalanx CIWS, kuni 20 F-35B ja helikopterid",
+    "Klass": "America klass"
+  },
+  {
+    "Nimi": "USS Bougainville (LHA-8)",
+    "Riik": "USA",
+    "Veeväljasurve": "~45 000 tonni (täislastis)",
+    "Relvastus": "2× RAM raketiheitjat, 2× Phalanx CIWS, kuni 20 F-35B ja helikopterid",
+    "Klass": "America klass"
   },
   {
     "Nimi": "INS Vikramaditya",
@@ -63,11 +168,32 @@
     "Klass": "Kiievi klass (ümberehitatud endine Admiral Gorškov)"
   },
   {
+    "Nimi": "USS Makin Island (LHD-8)",
+    "Riik": "USA",
+    "Veeväljasurve": "~45 700 tonni (täislastis)",
+    "Relvastus": "2× RAM raketiheitjat, 2× Phalanx CIWS, kuni 30 õhusõidukit (F-35B, helikopterid)",
+    "Klass": "Wasp klass (muudetud, gaasiturbiiniga)"
+  },
+  {
     "Nimi": "INS Vikrant",
     "Riik": "India",
     "Veeväljasurve": "~43 000–45 000 tonni (täislastis)",
     "Relvastus": "Barak-8 õhutõrjeraketid, AK-630 CIWS, ~30 õhusõidukit (MiG-29K, Rafale M tellitud, helikopterid)",
     "Klass": "Vikranti klass (IAC-1)"
+  },
+  {
+    "Nimi": "Kiev (muuseumlaev, Tianjin)",
+    "Riik": "Venemaa (NSVL)",
+    "Veeväljasurve": "~43 000 tonni (täislastis, kasutusest kõrvaldatud 1993)",
+    "Relvastus": "P-500 Bazalt tiibraketid, õhutõrjeraketid, Jak-38 hävitajad ja helikopterid",
+    "Klass": "Kiievi klass (Projekt 1143)"
+  },
+  {
+    "Nimi": "Minsk (muuseumlaev, endine Shenzhen)",
+    "Riik": "Venemaa (NSVL)",
+    "Veeväljasurve": "~43 000 tonni (täislastis, kasutusest kõrvaldatud 1993)",
+    "Relvastus": "P-500 Bazalt tiibraketid, õhutõrjeraketid, Jak-38 hävitajad ja helikopterid",
+    "Klass": "Kiievi klass (Projekt 1143)"
   },
   {
     "Nimi": "Charles de Gaulle (R91)",
@@ -77,6 +203,55 @@
     "Klass": "Charles de Gaulle'i klass (tuumaenergial)"
   },
   {
+    "Nimi": "USS Wasp (LHD-1)",
+    "Riik": "USA",
+    "Veeväljasurve": "~41 000 tonni (täislastis)",
+    "Relvastus": "2× RAM raketiheitjat, 2× Phalanx CIWS, kuni 20 F-35B/AV-8B ja helikopterid",
+    "Klass": "Wasp klass"
+  },
+  {
+    "Nimi": "USS Essex (LHD-2)",
+    "Riik": "USA",
+    "Veeväljasurve": "~41 000 tonni (täislastis)",
+    "Relvastus": "2× RAM raketiheitjat, 2× Phalanx CIWS, kuni 20 F-35B/AV-8B ja helikopterid",
+    "Klass": "Wasp klass"
+  },
+  {
+    "Nimi": "USS Kearsarge (LHD-3)",
+    "Riik": "USA",
+    "Veeväljasurve": "~41 000 tonni (täislastis)",
+    "Relvastus": "2× RAM raketiheitjat, 2× Phalanx CIWS, kuni 20 F-35B/AV-8B ja helikopterid",
+    "Klass": "Wasp klass"
+  },
+  {
+    "Nimi": "USS Boxer (LHD-4)",
+    "Riik": "USA",
+    "Veeväljasurve": "~41 000 tonni (täislastis)",
+    "Relvastus": "2× RAM raketiheitjat, 2× Phalanx CIWS, kuni 20 F-35B/AV-8B ja helikopterid",
+    "Klass": "Wasp klass"
+  },
+  {
+    "Nimi": "USS Bataan (LHD-5)",
+    "Riik": "USA",
+    "Veeväljasurve": "~41 000 tonni (täislastis)",
+    "Relvastus": "2× RAM raketiheitjat, 2× Phalanx CIWS, kuni 20 F-35B/AV-8B ja helikopterid",
+    "Klass": "Wasp klass"
+  },
+  {
+    "Nimi": "USS Iwo Jima (LHD-7)",
+    "Riik": "USA",
+    "Veeväljasurve": "~41 000 tonni (täislastis)",
+    "Relvastus": "2× RAM raketiheitjat, 2× Phalanx CIWS, kuni 20 F-35B/AV-8B ja helikopterid",
+    "Klass": "Wasp klass"
+  },
+  {
+    "Nimi": "USS Tarawa (LHA-1)",
+    "Riik": "USA",
+    "Veeväljasurve": "~39 400 tonni (täislastis, kasutusest kõrvaldatud 2009)",
+    "Relvastus": "Sea Sparrow raketid, Phalanx CIWS, AV-8B Harrier ja helikopterid",
+    "Klass": "Tarawa klass"
+  },
+  {
     "Nimi": "ITS Trieste (L9890)",
     "Riik": "Itaalia",
     "Veeväljasurve": "~38 000 tonni (täislastis)",
@@ -84,11 +259,53 @@
     "Klass": "Trieste klass (LHD)"
   },
   {
+    "Nimi": "NAe São Paulo (A12)",
+    "Riik": "Brasiilia",
+    "Veeväljasurve": "~37 085 tonni (täislastis, kasutusest kõrvaldatud 2018, uputatud 2023)",
+    "Relvastus": "Crotale õhutõrjeraketid, kahurid, A-4 Skyhawk hävitajad ja helikopterid",
+    "Klass": "Clemenceau klass (endine Prantsuse Foch)"
+  },
+  {
+    "Nimi": "INS Viraat",
+    "Riik": "India",
+    "Veeväljasurve": "~28 700 tonni (täislastis, kasutusest kõrvaldatud 2017)",
+    "Relvastus": "Barak-1 õhutõrjeraketid, CIWS, Sea Harrier hävitajad ja helikopterid",
+    "Klass": "Centauri klass (endine HMS Hermes)"
+  },
+  {
     "Nimi": "ITS Cavour (C550)",
     "Riik": "Itaalia",
     "Veeväljasurve": "~27 000–30 000 tonni (täislastis)",
     "Relvastus": "Aster 15 (SAAM) õhutõrjesüsteem, 2× 76mm Super Rapid kahurit, ~16 õhusõidukit (F-35B, AV-8B Harrier)",
     "Klass": "Cavour klass"
+  },
+  {
+    "Nimi": "HMAS Canberra (L02)",
+    "Riik": "Austraalia",
+    "Veeväljasurve": "~27 500 tonni (täislastis)",
+    "Relvastus": "Phalanx CIWS, 25mm kahurid, kuni 18 helikopterit",
+    "Klass": "Canberra klass"
+  },
+  {
+    "Nimi": "HMAS Adelaide (L01)",
+    "Riik": "Austraalia",
+    "Veeväljasurve": "~27 500 tonni (täislastis)",
+    "Relvastus": "Phalanx CIWS, 25mm kahurid, kuni 18 helikopterit",
+    "Klass": "Canberra klass"
+  },
+  {
+    "Nimi": "TCG Anadolu",
+    "Riik": "Türgi",
+    "Veeväljasurve": "~27 436 tonni (täislastis)",
+    "Relvastus": "Gökdeniz CIWS, Hisar õhutõrjeraketid, kuni 12 TB3/Bayraktar Kızılelma droonõhusõidukit ja helikopterid",
+    "Klass": "Anadolu klass (Juan Carlos I baasil)"
+  },
+  {
+    "Nimi": "Juan Carlos I (L-61)",
+    "Riik": "Hispaania",
+    "Veeväljasurve": "~27 079 tonni (täislastis)",
+    "Relvastus": "MSI-DS 30mm automaatkahurid, AV-8B Harrier / helikopterid",
+    "Klass": "Juan Carlos I klass"
   },
   {
     "Nimi": "JS Izumo (DDH-183)",
@@ -103,5 +320,33 @@
     "Veeväljasurve": "~26 000–27 000 tonni (täislastis)",
     "Relvastus": "2× Phalanx CIWS, 2× SeaRAM raketiheitjat, kuni 28 helikopterit / F-35B (katsetused lõpetatud 2024)",
     "Klass": "Izumo klass"
+  },
+  {
+    "Nimi": "ENS Gamal Abdel Nasser (L1010)",
+    "Riik": "Egiptus",
+    "Veeväljasurve": "~21 300 tonni (täislastis)",
+    "Relvastus": "Simbad õhutõrjeraketid, 30mm kahurid, kuni 16 helikopterit",
+    "Klass": "Mistrali klass (endine Vene tellimus)"
+  },
+  {
+    "Nimi": "ENS Anwar El Sadat (L1020)",
+    "Riik": "Egiptus",
+    "Veeväljasurve": "~21 300 tonni (täislastis)",
+    "Relvastus": "Simbad õhutõrjeraketid, 30mm kahurid, kuni 16 helikopterit",
+    "Klass": "Mistrali klass (endine Vene tellimus)"
+  },
+  {
+    "Nimi": "ROKS Dokdo",
+    "Riik": "Lõuna-Korea",
+    "Veeväljasurve": "~19 000 tonni (täislastis)",
+    "Relvastus": "RIM-116 RAM raketiheitja, Goalkeeper CIWS, kuni 15 helikopterit",
+    "Klass": "Dokdo klass"
+  },
+  {
+    "Nimi": "ROKS Marado",
+    "Riik": "Lõuna-Korea",
+    "Veeväljasurve": "~19 000 tonni (täislastis)",
+    "Relvastus": "RIM-116 RAM raketiheitja, Goalkeeper CIWS, kuni 15 helikopterit",
+    "Klass": "Dokdo klass"
   }
 ]
