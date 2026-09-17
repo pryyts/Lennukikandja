@@ -1,0 +1,307 @@
+<title>Lennukikandjate Galerii</title>
+<style>
+  :root{
+    --bg:#0b1420;
+    --surface:#111d2c;
+    --surface-2:#16273a;
+    --border:#22384f;
+    --text:#e8eef4;
+    --text-dim:#9fb2c4;
+    --accent:#5aa9d6;
+    --accent-2:#f0a840;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --bg:#eef2f6;
+      --surface:#ffffff;
+      --surface-2:#f4f7fa;
+      --border:#d7e0e8;
+      --text:#132433;
+      --text-dim:#516779;
+      --accent:#1c6fa8;
+      --accent-2:#b9700f;
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#eef2f6;
+    --surface:#ffffff;
+    --surface-2:#f4f7fa;
+    --border:#d7e0e8;
+    --text:#132433;
+    --text-dim:#516779;
+    --accent:#1c6fa8;
+    --accent-2:#b9700f;
+  }
+  :root[data-theme="dark"]{
+    --bg:#0b1420;
+    --surface:#111d2c;
+    --surface-2:#16273a;
+    --border:#22384f;
+    --text:#e8eef4;
+    --text-dim:#9fb2c4;
+    --accent:#5aa9d6;
+    --accent-2:#f0a840;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',system-ui,sans-serif;
+    padding-inline:16px;
+    padding-block:32px;
+  }
+  .wrap{max-width:1180px;margin:0 auto;}
+
+  header{margin-bottom:36px;}
+  .eyebrow{
+    font-family:'Oswald',system-ui,sans-serif;
+    text-transform:uppercase;
+    letter-spacing:.18em;
+    font-size:12px;
+    color:var(--accent);
+    font-weight:600;
+  }
+  h1{
+    font-family:'Oswald',system-ui,sans-serif;
+    font-weight:700;
+    font-size:clamp(28px,5vw,44px);
+    margin:6px 0 10px;
+    text-wrap:balance;
+    letter-spacing:.01em;
+  }
+  header p{
+    color:var(--text-dim);
+    max-width:60ch;
+    font-size:15px;
+    line-height:1.6;
+    margin:0;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:20px;
+  }
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:10px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+  .rank{
+    position:absolute;
+    top:10px;
+    left:10px;
+    background:rgba(11,20,32,.72);
+    color:#fff;
+    font-family:'Oswald',system-ui,sans-serif;
+    font-weight:700;
+    font-size:13px;
+    padding:3px 9px;
+    border-radius:5px;
+    letter-spacing:.03em;
+  }
+  .imgwrap{
+    position:relative;
+    aspect-ratio:16/10;
+    background:var(--surface-2);
+    overflow:hidden;
+  }
+  .imgwrap img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .body{
+    padding:16px 18px 18px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    flex:1;
+  }
+  .name{
+    font-family:'Oswald',system-ui,sans-serif;
+    font-weight:600;
+    font-size:17px;
+    line-height:1.25;
+    text-wrap:balance;
+  }
+  .meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px 8px;
+    font-size:12px;
+  }
+  .tag{
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:3px 10px;
+    color:var(--text-dim);
+    white-space:nowrap;
+  }
+  .tag.country{color:var(--accent-2);border-color:var(--accent-2);}
+  dl{
+    margin:2px 0 0;
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:4px 10px;
+    font-size:12.5px;
+  }
+  dt{
+    color:var(--text-dim);
+    font-weight:600;
+    white-space:nowrap;
+  }
+  dd{
+    margin:0;
+    line-height:1.45;
+  }
+
+  footer{
+    margin-top:36px;
+    font-size:12px;
+    color:var(--text-dim);
+    border-top:1px solid var(--border);
+    padding-top:16px;
+    line-height:1.6;
+  }
+  footer a{color:var(--accent);}
+</style>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Merevägi &middot; Sõjalaevastik</div>
+    <h1>Maailma 15 suurimat lennukikandjat</h1>
+    <p>Järjestatud täislasti veeväljasurve järgi. Pildid pärinevad Wikimedia Commonsi avalikust arhiivist.</p>
+  </header>
+
+  <div class="grid" id="grid"></div>
+
+  <footer>
+    Pildiallikas: Wikimedia Commons / Wikipedia (avalik litsentsitud sisu). Andmed: militarymachine.com ja üldteadaolevad tehnilised spetsifikatsioonid, seisuga 2026.
+  </footer>
+</div>
+
+<script>
+const ships = [
+  {
+    rank:1, name:"USS Gerald R. Ford (CVN-78)", country:"USA", class:"Gerald R. Ford-klass",
+    displacement:"~100 000 t (täislastis)",
+    armament:"2× RIM-162 ESSM, 2× RIM-116 RAM, 3× Phalanx CIWS, kuni 75+ õhusõidukit",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/USS_Gerald_R._Ford_%28CVN-78%29_underway_in_the_Atlantic_Ocean_on_9_October_2022_%28221009-N-TL968-1248%29.JPG/640px-USS_Gerald_R._Ford_%28CVN-78%29_underway_in_the_Atlantic_Ocean_on_9_October_2022_%28221009-N-TL968-1248%29.JPG"
+  },
+  {
+    rank:2, name:"USS Nimitz (CVN-68) ja Nimitzi klass", country:"USA", class:"Nimitzi klass",
+    displacement:"~97 000–104 000 t (täislastis)",
+    armament:"RIM-7 Sea Sparrow / RIM-162 ESSM, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/USS_Nimitz_%28CVN-68%29.jpg/640px-USS_Nimitz_%28CVN-68%29.jpg"
+  },
+  {
+    rank:3, name:"Fujian", country:"Hiina", class:"Type 003",
+    displacement:"~80 000–85 000 t (täislastis)",
+    armament:"HQ-10 õhutõrjeraketid, Type 1130 CIWS, ~40–50 õhusõidukit (J-15/J-35, KJ-600 AEW)",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/PLAN_CV-18_Fujian_20250911.jpg/640px-PLAN_CV-18_Fujian_20250911.jpg"
+  },
+  {
+    rank:4, name:"Shandong", country:"Hiina", class:"Type 002",
+    displacement:"~66 000–70 000 t (täislastis)",
+    armament:"HQ-10 õhutõrjeraketid, Type 1130 CIWS, ~44 õhusõidukit (peamiselt J-15)",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Chinese_aircraft_carrier_Shandong_in_2019.jpg/640px-Chinese_aircraft_carrier_Shandong_in_2019.jpg"
+  },
+  {
+    rank:5, name:"HMS Queen Elizabeth (R08)", country:"Suurbritannia", class:"Queen Elizabethi klass",
+    displacement:"~65 000 t (täislastis)",
+    armament:"Phalanx CIWS, 30mm automaatkahurid, kuni 36 F-35B ja helikopterid",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/HMS_Queen_Elizabeth_in_Gibraltar_-_2018_%2828386226189%29.jpg/640px-HMS_Queen_Elizabeth_in_Gibraltar_-_2018_%2828386226189%29.jpg"
+  },
+  {
+    rank:6, name:"HMS Prince of Wales (R09)", country:"Suurbritannia", class:"Queen Elizabethi klass",
+    displacement:"~65 000 t (täislastis)",
+    armament:"Phalanx CIWS, 30mm automaatkahurid, kuni 36 F-35B ja helikopterid",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/VX-23_F-35B_approaches_HMS_Prince_of_Wales.jpg/640px-VX-23_F-35B_approaches_HMS_Prince_of_Wales.jpg"
+  },
+  {
+    rank:7, name:"Liaoning", country:"Hiina", class:"Type 001",
+    displacement:"~60 000–66 000 t (täislastis)",
+    armament:"HQ-10 õhutõrjeraketid, Type 1130 CIWS, ~24–36 õhusõidukit",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Aircraft_Carrier_Liaoning_CV-16.jpg/640px-Aircraft_Carrier_Liaoning_CV-16.jpg"
+  },
+  {
+    rank:8, name:"Admiral Kuznetsov", country:"Venemaa", class:"Kuznetsovi klass (Projekt 1143.5)",
+    displacement:"~58 600–59 100 t (täislastis)",
+    armament:"12× P-700 Granit tiibraketti, Kashtan CIWS, Klinok õhutõrjesüsteem, ~24 Su-33/MiG-29K (mitteoperatiivne)",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/MilitarySportsHoliday2017-03.jpg/640px-MilitarySportsHoliday2017-03.jpg"
+  },
+  {
+    rank:9, name:"INS Vikramaditya", country:"India", class:"Kiievi klass (ümberehitatud)",
+    displacement:"~45 400 t (täislastis)",
+    armament:"AK-630 CIWS, Barak-1 õhutõrjeraketid, ~26 MiG-29K ja helikopterid",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/INS_Vikramaditya_%28R33%29_with_a_Sea_Harrier.jpg/640px-INS_Vikramaditya_%28R33%29_with_a_Sea_Harrier.jpg"
+  },
+  {
+    rank:10, name:"INS Vikrant", country:"India", class:"Vikranti klass (IAC-1)",
+    displacement:"~43 000–45 000 t (täislastis)",
+    armament:"Barak-8 õhutõrjeraketid, AK-630 CIWS, ~30 õhusõidukit (MiG-29K, Rafale M tellitud)",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/IAC1_Vikrant_at_Cochin.jpg/640px-IAC1_Vikrant_at_Cochin.jpg"
+  },
+  {
+    rank:11, name:"Charles de Gaulle (R91)", country:"Prantsusmaa", class:"Charles de Gaulle'i klass",
+    displacement:"~42 500 t (täislastis)",
+    armament:"Aster 15 õhutõrjeraketid, Sadral (Mistral), 8× 20mm kahurit, 30–40 õhusõidukit (Rafale M)",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/French_aircraft_carrier_Charles_de_Gaulle_%28R91%29_underway_in_the_Ionian_Sea_on_17_March_2022_%28220317-N-DH793-1322%29cropped.JPG/640px-French_aircraft_carrier_Charles_de_Gaulle_%28R91%29_underway_in_the_Ionian_Sea_on_17_March_2022_%28220317-N-DH793-1322%29cropped.JPG"
+  },
+  {
+    rank:12, name:"ITS Trieste (L9890)", country:"Itaalia", class:"Trieste klass (LHD)",
+    displacement:"~38 000 t (täislastis)",
+    armament:"Sylver A50 (Aster) raketid, 76mm kahurid, CIWS, F-35B ja helikopterid",
+    img:"https://upload.wikimedia.org/wikipedia/commons/3/34/Italian_LHD_Trieste.jpg"
+  },
+  {
+    rank:13, name:"ITS Cavour (C550)", country:"Itaalia", class:"Cavour klass",
+    displacement:"~27 000–30 000 t (täislastis)",
+    armament:"Aster 15 (SAAM), 2× 76mm Super Rapid kahurit, ~16 õhusõidukit (F-35B, AV-8B)",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Cavour_%28550%29.jpg/640px-Cavour_%28550%29.jpg"
+  },
+  {
+    rank:14, name:"JS Izumo (DDH-183)", country:"Jaapan", class:"Izumo klass",
+    displacement:"~26 000–27 000 t (täislastis)",
+    armament:"2× Phalanx CIWS, 2× SeaRAM, kuni 28 helikopterit / F-35B (ümberehitus käimas)",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/JS_Izumo%EF%BC%88DDH-183%EF%BC%89seen_from_the_sky_10-03-2021.jpg/640px-JS_Izumo%EF%BC%88DDH-183%EF%BC%89seen_from_the_sky_10-03-2021.jpg"
+  },
+  {
+    rank:15, name:"JS Kaga (DDH-184)", country:"Jaapan", class:"Izumo klass",
+    displacement:"~26 000–27 000 t (täislastis)",
+    armament:"2× Phalanx CIWS, 2× SeaRAM, kuni 28 helikopterit / F-35B (katsetused lõpetatud 2024)",
+    img:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/JS_Kaga%EF%BC%88DDH-184%EF%BC%89after_renovation.jpg/640px-JS_Kaga%EF%BC%88DDH-184%EF%BC%89after_renovation.jpg"
+  }
+];
+
+const grid = document.getElementById('grid');
+grid.innerHTML = ships.map(s => `
+  <div class="card">
+    <div class="imgwrap">
+      <span class="rank">#${s.rank}</span>
+      <img src="${s.img}" alt="${s.name}" loading="lazy" onerror="this.parentElement.style.display='none'">
+    </div>
+    <div class="body">
+      <div class="name">${s.name}</div>
+      <div class="meta">
+        <span class="tag country">${s.country}</span>
+        <span class="tag">${s.class}</span>
+      </div>
+      <dl>
+        <dt>Veeväljasurve</dt><dd>${s.displacement}</dd>
+        <dt>Relvastus</dt><dd>${s.armament}</dd>
+      </dl>
+    </div>
+  </div>
+`).join('');
+</script>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lennukikandjad maailmakaardil</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --navy-900:#0B1B33;
+    --navy-700:#16305A;
+    --navy-500:#2C4A7C;
+    --navy-300:#7B93BD;
+    --gray-700:#4A5261;
+    --gray-500:#6B7480;
+    --gray-300:#C6CBD3;
+    --gray-100:#EFF1F4;
+    --bg:#F6F7FA;
+    --surface:#FFFFFF;
+    --border:#C6CBD3;
+    --text:#151B26;
+    --text-faint:#6B7480;
+    --accent:#17A9E0;
+    --accent-dark:#0F87B8;
+    --accent-tint:#DDF1FA;
+    --font-display:"Archivo",sans-serif;
+    --font-body:"IBM Plex Sans",sans-serif;
+    --font-mono:"IBM Plex Mono",monospace;
+    --radius:0px;
+    --unit:8px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0B1220;
+      --surface:#101A2C;
+      --border:#22384f;
+      --text:#E8EEF4;
+      --text-faint:#9FB2C4;
+      --gray-100:#16233a;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0B1220;
+    --surface:#101A2C;
+    --border:#22384f;
+    --text:#E8EEF4;
+    --text-faint:#9FB2C4;
+    --gray-100:#16233a;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    font-size:16px;
+    line-height:1.6;
+  }
+
+  nav{
+    background:var(--navy-900);
+    color:#fff;
+    padding:16px 24px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  nav .logo{
+    font-family:var(--font-display);
+    font-weight:800;
+    font-size:18px;
+    letter-spacing:-0.01em;
+  }
+  nav .logo span{color:var(--accent);}
+
+  header.hero{
+    padding:40px 24px 24px;
+    max-width:1180px;
+    margin:0 auto;
+  }
+  .eyebrow{
+    font-family:var(--font-mono);
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    font-size:12px;
+    font-weight:600;
+    color:var(--accent-dark);
+  }
+  h1{
+    font-family:var(--font-display);
+    font-weight:800;
+    font-size:clamp(28px,4vw,40px);
+    letter-spacing:-0.01em;
+    margin:8px 0 10px;
+  }
+  header.hero p{
+    color:var(--text-faint);
+    max-width:70ch;
+    font-size:15px;
+    margin:0;
+  }
+
+  .map-wrap{
+    max-width:1180px;
+    margin:24px auto 0;
+    padding:0 24px;
+  }
+  #map{
+    height:560px;
+    border:1px solid var(--border);
+    background:var(--gray-100);
+  }
+  .leaflet-container{
+    background:var(--bg);
+    font-family:var(--font-body);
+  }
+  .leaflet-tile-pane{
+    filter:grayscale(0.5) saturate(0.4) brightness(1.05) sepia(0.15) hue-rotate(160deg);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]) .leaflet-tile-pane{
+      filter:grayscale(0.4) saturate(0.5) brightness(0.55) contrast(1.1) sepia(0.2) hue-rotate(160deg) invert(1);
+    }
+  }
+  :root[data-theme="dark"] .leaflet-tile-pane{
+    filter:grayscale(0.4) saturate(0.5) brightness(0.55) contrast(1.1) sepia(0.2) hue-rotate(160deg) invert(1);
+  }
+
+  .carrier-dot{
+    width:16px;height:16px;
+    border-radius:50%;
+    background:var(--accent);
+    border:2px solid #fff;
+    box-shadow:0 0 0 4px rgba(23,169,224,0.25);
+    cursor:pointer;
+    transition:transform 0.15s ease;
+  }
+  .carrier-dot:hover{
+    transform:scale(1.15);
+  }
+  .leaflet-popup-content-wrapper{
+    border-radius:var(--radius);
+    background:var(--surface);
+    color:var(--text);
+    border:1px solid var(--border);
+  }
+  .leaflet-popup-tip{background:var(--surface);}
+  .popup-country{
+    font-family:var(--font-mono);
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    font-size:11px;
+    color:var(--accent-dark);
+    font-weight:600;
+    margin-bottom:4px;
+  }
+  .popup-title{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:15px;
+    margin-bottom:8px;
+    line-height:1.3;
+  }
+  .popup-img{
+    aspect-ratio:16/10;
+    background:var(--gray-100);
+    overflow:hidden;
+    margin-bottom:8px;
+  }
+  .popup-img img{
+    width:100%;height:100%;object-fit:cover;display:block;
+  }
+  .popup-dl{
+    margin:8px 0 0;
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:5px 8px;
+    font-size:12px;
+  }
+  .popup-dl dt{
+    font-family:var(--font-mono);
+    text-transform:uppercase;
+    font-size:10.5px;
+    color:var(--text-faint);
+    font-weight:600;
+    white-space:nowrap;
+    padding-top:1px;
+  }
+  .popup-dl dd{
+    margin:0;
+    line-height:1.4;
+  }
+
+  section.legend{
+    max-width:1180px;
+    margin:20px auto 0;
+    padding:0 24px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px 8px;
+  }
+  .tag{
+    font-family:var(--font-mono);
+    font-size:11px;
+    text-transform:uppercase;
+    border:1px solid var(--border);
+    color:var(--text-faint);
+    padding:4px 10px;
+  }
+
+  main.detail{
+    max-width:1180px;
+    margin:0 auto;
+    padding:40px 24px 24px;
+  }
+  main.detail h2{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:22px;
+    margin:0 0 4px;
+  }
+  main.detail .hint{
+    color:var(--text-faint);
+    font-size:13px;
+    margin:0 0 20px;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:1px;
+    background:var(--border);
+    border:1px solid var(--border);
+  }
+  .card{
+    background:var(--surface);
+    display:flex;
+    flex-direction:column;
+  }
+  .card .imgwrap{
+    aspect-ratio:16/10;
+    background:var(--gray-100);
+    overflow:hidden;
+  }
+  .card .imgwrap img{
+    width:100%;height:100%;object-fit:cover;display:block;
+  }
+  .card .body{
+    padding:18px 20px 20px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .card .name{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:16px;
+    line-height:1.3;
+  }
+  .badge{
+    display:inline-block;
+    align-self:flex-start;
+    font-family:var(--font-mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    border:1px solid var(--accent);
+    color:var(--accent-dark);
+    padding:2px 8px;
+  }
+  .card dl{
+    margin:0;
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:6px 10px;
+    font-size:13px;
+  }
+  .card dt{
+    font-family:var(--font-mono);
+    text-transform:uppercase;
+    font-size:11px;
+    color:var(--text-faint);
+    font-weight:600;
+    white-space:nowrap;
+    padding-top:2px;
+  }
+  .card dd{
+    margin:0;
+    line-height:1.45;
+  }
+
+  footer{
+    max-width:1180px;
+    margin:20px auto 0;
+    padding:16px 24px 40px;
+    border-top:1px solid var(--border);
+    color:var(--text-faint);
+    font-size:12px;
+    line-height:1.6;
+  }
+  footer a{color:var(--accent-dark);}
+</style>
+</head>
+<body>
+
+<nav><div class="logo">Navy<span>Atlas</span></div></nav>
+
+<header class="hero">
+  <div class="eyebrow">Merevägi &middot; Sõjalaevastik</div>
+  <h1>Maailma lennukikandjad kaardil</h1>
+  <p>Iga sinine punkt tähistab üht lennukikandjat tema kodusadama juures. Klõpsa punktil, et näha selle laeva pilti ja andmeid, või keri alla täieliku ülevaate saamiseks.</p>
+</header>
+
+<section class="map-wrap">
+  <div id="map"></div>
+</section>
+
+<section class="legend" id="legend"></section>
+
+<main class="detail">
+  <h2>Kõik lennukikandjad riikide kaupa</h2>
+  <p class="hint">Andmed: Lennukikandjad/lennukikandjad.json &middot; Pildid: Wikimedia Commons</p>
+  <div id="allGroups"></div>
+</main>
+
+<footer>
+  Andmed: <code>lennukikandjad.json</code>. Pildiallikas: Wikimedia Commons / Wikipedia (avalik litsentsitud sisu).
+  Disainisüsteem: <a href="NavyDisain.md">NavyDisain.md</a> v1.0.
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+const images = {
+  "USS Gerald R. Ford (CVN-78)": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/USS_Gerald_R._Ford_%28CVN-78%29_underway_in_the_Atlantic_Ocean_on_9_October_2022_%28221009-N-TL968-1248%29.JPG/640px-USS_Gerald_R._Ford_%28CVN-78%29_underway_in_the_Atlantic_Ocean_on_9_October_2022_%28221009-N-TL968-1248%29.JPG",
+  "USS Nimitz (CVN-68) ja teised Nimitzi klassi laevad": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/USS_Nimitz_%28CVN-68%29.jpg/640px-USS_Nimitz_%28CVN-68%29.jpg",
+  "Fujian": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/PLAN_CV-18_Fujian_20250911.jpg/640px-PLAN_CV-18_Fujian_20250911.jpg",
+  "Shandong": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Chinese_aircraft_carrier_Shandong_in_2019.jpg/640px-Chinese_aircraft_carrier_Shandong_in_2019.jpg",
+  "HMS Queen Elizabeth (R08)": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/HMS_Queen_Elizabeth_in_Gibraltar_-_2018_%2828386226189%29.jpg/640px-HMS_Queen_Elizabeth_in_Gibraltar_-_2018_%2828386226189%29.jpg",
+  "HMS Prince of Wales (R09)": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/VX-23_F-35B_approaches_HMS_Prince_of_Wales.jpg/640px-VX-23_F-35B_approaches_HMS_Prince_of_Wales.jpg",
+  "Liaoning": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Aircraft_Carrier_Liaoning_CV-16.jpg/640px-Aircraft_Carrier_Liaoning_CV-16.jpg",
+  "Admiral Kuznetsov": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/MilitarySportsHoliday2017-03.jpg/640px-MilitarySportsHoliday2017-03.jpg",
+  "INS Vikramaditya": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/INS_Vikramaditya_%28R33%29_with_a_Sea_Harrier.jpg/640px-INS_Vikramaditya_%28R33%29_with_a_Sea_Harrier.jpg",
+  "INS Vikrant": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/IAC1_Vikrant_at_Cochin.jpg/640px-IAC1_Vikrant_at_Cochin.jpg",
+  "Charles de Gaulle (R91)": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/French_aircraft_carrier_Charles_de_Gaulle_%28R91%29_underway_in_the_Ionian_Sea_on_17_March_2022_%28220317-N-DH793-1322%29cropped.JPG/640px-French_aircraft_carrier_Charles_de_Gaulle_%28R91%29_underway_in_the_Ionian_Sea_on_17_March_2022_%28220317-N-DH793-1322%29cropped.JPG",
+  "ITS Trieste (L9890)": "https://upload.wikimedia.org/wikipedia/commons/3/34/Italian_LHD_Trieste.jpg",
+  "ITS Cavour (C550)": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Cavour_%28550%29.jpg/640px-Cavour_%28550%29.jpg",
+  "JS Izumo (DDH-183)": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/JS_Izumo%EF%BC%88DDH-183%EF%BC%89seen_from_the_sky_10-03-2021.jpg/640px-JS_Izumo%EF%BC%88DDH-183%EF%BC%89seen_from_the_sky_10-03-2021.jpg",
+  "JS Kaga (DDH-184)": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/JS_Kaga%EF%BC%88DDH-184%EF%BC%89after_renovation.jpg/640px-JS_Kaga%EF%BC%88DDH-184%EF%BC%89after_renovation.jpg"
+};
+
+const ships = [
+  {"Nimi":"USS Gerald R. Ford (CVN-78)","Riik":"USA","Veeväljasurve":"~100 000 tonni (täislastis)","Relvastus":"2× RIM-162 ESSM raketiheitjat, 2× RIM-116 RAM raketiheitjat, 3× Phalanx CIWS, kuni 75+ õhusõidukit","Klass":"Gerald R. Ford-klass","lat":36.95,"lng":-76.33},
+  {"Nimi":"USS Nimitz (CVN-68) ja teised Nimitzi klassi laevad","Riik":"USA","Veeväljasurve":"~97 000–104 000 tonni (täislastis)","Relvastus":"RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit","Klass":"Nimitzi klass","lat":32.68,"lng":-117.13},
+  {"Nimi":"Fujian","Riik":"Hiina","Veeväljasurve":"~80 000–85 000 tonni (täislastis)","Relvastus":"HQ-10 õhutõrjeraketid, Type 1130 CIWS, ~40–50 õhusõidukit (sh J-15/J-35 hävitajad, KJ-600 AEW)","Klass":"Type 003","lat":31.35,"lng":121.85},
+  {"Nimi":"Shandong","Riik":"Hiina","Veeväljasurve":"~66 000–70 000 tonni (täislastis)","Relvastus":"HQ-10 õhutõrjeraketid, Type 1130 CIWS, ~44 õhusõidukit (peamiselt J-15)","Klass":"Type 002","lat":18.25,"lng":109.5},
+  {"Nimi":"HMS Queen Elizabeth (R08)","Riik":"Suurbritannia","Veeväljasurve":"~65 000 tonni (täislastis)","Relvastus":"Phalanx CIWS, 30mm automaatkahurid, kuni 36 F-35B hävitajat ja helikopterid","Klass":"Queen Elizabethi klass","lat":50.82,"lng":-1.15},
+  {"Nimi":"HMS Prince of Wales (R09)","Riik":"Suurbritannia","Veeväljasurve":"~65 000 tonni (täislastis)","Relvastus":"Phalanx CIWS, 30mm automaatkahurid, kuni 36 F-35B hävitajat ja helikopterid","Klass":"Queen Elizabethi klass","lat":50.72,"lng":-1.35},
+  {"Nimi":"Liaoning","Riik":"Hiina","Veeväljasurve":"~60 000–66 000 tonni (täislastis)","Relvastus":"HQ-10 õhutõrjeraketid, Type 1130 CIWS, ~24–36 õhusõidukit (J-15 ja helikopterid)","Klass":"Type 001 (endine Riga/Varyag, Kuznetsovi klassi baasil)","lat":36.07,"lng":120.38},
+  {"Nimi":"Admiral Kuznetsov","Riik":"Venemaa","Veeväljasurve":"~58 600–59 100 tonni (täislastis)","Relvastus":"12× P-700 Granit tiibraketti, Kashtan CIWS, Klinok õhutõrjeraketisüsteem, ~24 Su-33/MiG-29K hävitajat (praegu mitteoperatiivne)","Klass":"Kuznetsovi klass (Projekt 1143.5)","lat":69.07,"lng":33.42},
+  {"Nimi":"INS Vikramaditya","Riik":"India","Veeväljasurve":"~45 400 tonni (täislastis)","Relvastus":"AK-630 CIWS, Barak-1 õhutõrjeraketid, ~26 MiG-29K hävitajat ja helikopterid","Klass":"Kiievi klass (ümberehitatud endine Admiral Gorškov)","lat":14.8,"lng":74.13},
+  {"Nimi":"INS Vikrant","Riik":"India","Veeväljasurve":"~43 000–45 000 tonni (täislastis)","Relvastus":"Barak-8 õhutõrjeraketid, AK-630 CIWS, ~30 õhusõidukit (MiG-29K, Rafale M tellitud, helikopterid)","Klass":"Vikranti klass (IAC-1)","lat":9.97,"lng":76.28},
+  {"Nimi":"Charles de Gaulle (R91)","Riik":"Prantsusmaa","Veeväljasurve":"~42 500 tonni (täislastis)","Relvastus":"Aster 15 õhutõrjeraketid, Sadral (Mistral) raketiheitjad, 8× 20mm kahurit, 30–40 õhusõidukit (Rafale M)","Klass":"Charles de Gaulle'i klass (tuumaenergial)","lat":43.12,"lng":5.93},
+  {"Nimi":"ITS Trieste (L9890)","Riik":"Itaalia","Veeväljasurve":"~38 000 tonni (täislastis)","Relvastus":"Sylver A50 (Aster) raketid, 76mm kahurid, CIWS, F-35B ja helikopterid","Klass":"Trieste klass (LHD)","lat":40.47,"lng":17.23},
+  {"Nimi":"ITS Cavour (C550)","Riik":"Itaalia","Veeväljasurve":"~27 000–30 000 tonni (täislastis)","Relvastus":"Aster 15 (SAAM) õhutõrjesüsteem, 2× 76mm Super Rapid kahurit, ~16 õhusõidukit (F-35B, AV-8B Harrier)","Klass":"Cavour klass","lat":40.4,"lng":17.05},
+  {"Nimi":"JS Izumo (DDH-183)","Riik":"Jaapan","Veeväljasurve":"~26 000–27 000 tonni (täislastis)","Relvastus":"2× Phalanx CIWS, 2× SeaRAM raketiheitjat, kuni 28 helikopterit / F-35B (ümberehitus käimas)","Klass":"Izumo klass","lat":35.28,"lng":139.67},
+  {"Nimi":"JS Kaga (DDH-184)","Riik":"Jaapan","Veeväljasurve":"~26 000–27 000 tonni (täislastis)","Relvastus":"2× Phalanx CIWS, 2× SeaRAM raketiheitjat, kuni 28 helikopterit / F-35B (katsetused lõpetatud 2024)","Klass":"Izumo klass","lat":33.16,"lng":129.72}
+];
+
+// Grupeeri riigi kaupa
+const byCountry = {};
+ships.forEach(s => {
+  s.img = images[s.Nimi] || "";
+  (byCountry[s.Riik] = byCountry[s.Riik] || []).push(s);
+});
+
+// --- Kaart ---
+const map = L.map('map', { scrollWheelZoom: false }).setView([25, 15], 2);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 18,
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+function cardHtml(s){
+  return `
+    <div class="card">
+      <div class="imgwrap"><img src="${s.img}" alt="${s.Nimi}" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+      <div class="body">
+        <span class="badge">${s.Klass}</span>
+        <div class="name">${s.Nimi}</div>
+        <dl>
+          <dt>Veeväljasurve</dt><dd>${s["Veeväljasurve"]}</dd>
+          <dt>Relvastus</dt><dd>${s.Relvastus}</dd>
+        </dl>
+      </div>
+    </div>`;
+}
+
+function shipPopupHtml(s){
+  return `
+    <div class="popup-country">${s.Riik}</div>
+    <div class="popup-title">${s.Nimi}</div>
+    <div class="popup-img"><img src="${s.img}" alt="${s.Nimi}" loading="lazy" onerror="this.parentElement.style.display='none'"></div>
+    <span class="badge" style="margin-bottom:6px;">${s.Klass}</span>
+    <dl class="popup-dl">
+      <dt>Veeväljasurve</dt><dd>${s["Veeväljasurve"]}</dd>
+      <dt>Relvastus</dt><dd>${s.Relvastus}</dd>
+    </dl>`;
+}
+
+ships.forEach(s => {
+  const icon = L.divIcon({
+    className: '',
+    html: `<div style="position:relative;"><div class="carrier-dot" data-count=""></div></div>`,
+    iconSize: [16, 16],
+    iconAnchor: [8, 8]
+  });
+
+  L.marker([s.lat, s.lng], { icon, title: s.Nimi })
+    .addTo(map)
+    .bindPopup(shipPopupHtml(s), { maxWidth: 260 });
+});
+
+// --- Legend ---
+const legend = document.getElementById('legend');
+legend.innerHTML = Object.entries(byCountry)
+  .sort((a,b) => b[1].length - a[1].length)
+  .map(([country, list]) => `<span class="tag">${country} — ${list.length}</span>`)
+  .join('');
+
+// --- Kõik grupid all ---
+const allGroups = document.getElementById('allGroups');
+allGroups.innerHTML = Object.entries(byCountry).map(([country, list]) => `
+  <div style="margin:0 0 32px;">
+    <h3 style="font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.08em;font-size:13px;color:var(--accent-dark);margin:0 0 12px;">${country}</h3>
+    <div class="grid">
+      ${list.map(cardHtml).join('')}
+    </div>
+  </div>
+`).join('');
+</script>
+</body>
+</html>

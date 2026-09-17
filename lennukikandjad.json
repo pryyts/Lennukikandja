@@ -1,0 +1,107 @@
+[
+  {
+    "Nimi": "USS Gerald R. Ford (CVN-78)",
+    "Riik": "USA",
+    "Veeväljasurve": "~100 000 tonni (täislastis)",
+    "Relvastus": "2× RIM-162 ESSM raketiheitjat, 2× RIM-116 RAM raketiheitjat, 3× Phalanx CIWS, kuni 75+ õhusõidukit",
+    "Klass": "Gerald R. Ford-klass"
+  },
+  {
+    "Nimi": "USS Nimitz (CVN-68) ja teised Nimitzi klassi laevad",
+    "Riik": "USA",
+    "Veeväljasurve": "~97 000–104 000 tonni (täislastis)",
+    "Relvastus": "RIM-7 Sea Sparrow / RIM-162 ESSM raketid, RIM-116 RAM, Phalanx CIWS, 60–90 õhusõidukit",
+    "Klass": "Nimitzi klass"
+  },
+  {
+    "Nimi": "Fujian",
+    "Riik": "Hiina",
+    "Veeväljasurve": "~80 000–85 000 tonni (täislastis)",
+    "Relvastus": "HQ-10 õhutõrjeraketid, Type 1130 CIWS, ~40–50 õhusõidukit (sh J-15/J-35 hävitajad, KJ-600 AEW)",
+    "Klass": "Type 003"
+  },
+  {
+    "Nimi": "Shandong",
+    "Riik": "Hiina",
+    "Veeväljasurve": "~66 000–70 000 tonni (täislastis)",
+    "Relvastus": "HQ-10 õhutõrjeraketid, Type 1130 CIWS, ~44 õhusõidukit (peamiselt J-15)",
+    "Klass": "Type 002"
+  },
+  {
+    "Nimi": "HMS Queen Elizabeth (R08)",
+    "Riik": "Suurbritannia",
+    "Veeväljasurve": "~65 000 tonni (täislastis)",
+    "Relvastus": "Phalanx CIWS, 30mm automaatkahurid, kuni 36 F-35B hävitajat ja helikopterid",
+    "Klass": "Queen Elizabethi klass"
+  },
+  {
+    "Nimi": "HMS Prince of Wales (R09)",
+    "Riik": "Suurbritannia",
+    "Veeväljasurve": "~65 000 tonni (täislastis)",
+    "Relvastus": "Phalanx CIWS, 30mm automaatkahurid, kuni 36 F-35B hävitajat ja helikopterid",
+    "Klass": "Queen Elizabethi klass"
+  },
+  {
+    "Nimi": "Liaoning",
+    "Riik": "Hiina",
+    "Veeväljasurve": "~60 000–66 000 tonni (täislastis)",
+    "Relvastus": "HQ-10 õhutõrjeraketid, Type 1130 CIWS, ~24–36 õhusõidukit (J-15 ja helikopterid)",
+    "Klass": "Type 001 (endine Riga/Varyag, Kuznetsovi klassi baasil)"
+  },
+  {
+    "Nimi": "Admiral Kuznetsov",
+    "Riik": "Venemaa",
+    "Veeväljasurve": "~58 600–59 100 tonni (täislastis)",
+    "Relvastus": "12× P-700 Granit tiibraketti, Kashtan CIWS, Klinok õhutõrjeraketisüsteem, ~24 Su-33/MiG-29K hävitajat (praegu mitteoperatiivne)",
+    "Klass": "Kuznetsovi klass (Projekt 1143.5)"
+  },
+  {
+    "Nimi": "INS Vikramaditya",
+    "Riik": "India",
+    "Veeväljasurve": "~45 400 tonni (täislastis)",
+    "Relvastus": "AK-630 CIWS, Barak-1 õhutõrjeraketid, ~26 MiG-29K hävitajat ja helikopterid",
+    "Klass": "Kiievi klass (ümberehitatud endine Admiral Gorškov)"
+  },
+  {
+    "Nimi": "INS Vikrant",
+    "Riik": "India",
+    "Veeväljasurve": "~43 000–45 000 tonni (täislastis)",
+    "Relvastus": "Barak-8 õhutõrjeraketid, AK-630 CIWS, ~30 õhusõidukit (MiG-29K, Rafale M tellitud, helikopterid)",
+    "Klass": "Vikranti klass (IAC-1)"
+  },
+  {
+    "Nimi": "Charles de Gaulle (R91)",
+    "Riik": "Prantsusmaa",
+    "Veeväljasurve": "~42 500 tonni (täislastis)",
+    "Relvastus": "Aster 15 õhutõrjeraketid, Sadral (Mistral) raketiheitjad, 8× 20mm kahurit, 30–40 õhusõidukit (Rafale M)",
+    "Klass": "Charles de Gaulle'i klass (tuumaenergial)"
+  },
+  {
+    "Nimi": "ITS Trieste (L9890)",
+    "Riik": "Itaalia",
+    "Veeväljasurve": "~38 000 tonni (täislastis)",
+    "Relvastus": "Sylver A50 (Aster) raketid, 76mm kahurid, CIWS, F-35B ja helikopterid",
+    "Klass": "Trieste klass (LHD)"
+  },
+  {
+    "Nimi": "ITS Cavour (C550)",
+    "Riik": "Itaalia",
+    "Veeväljasurve": "~27 000–30 000 tonni (täislastis)",
+    "Relvastus": "Aster 15 (SAAM) õhutõrjesüsteem, 2× 76mm Super Rapid kahurit, ~16 õhusõidukit (F-35B, AV-8B Harrier)",
+    "Klass": "Cavour klass"
+  },
+  {
+    "Nimi": "JS Izumo (DDH-183)",
+    "Riik": "Jaapan",
+    "Veeväljasurve": "~26 000–27 000 tonni (täislastis)",
+    "Relvastus": "2× Phalanx CIWS, 2× SeaRAM raketiheitjat, kuni 28 helikopterit / F-35B (ümberehitus käimas)",
+    "Klass": "Izumo klass"
+  },
+  {
+    "Nimi": "JS Kaga (DDH-184)",
+    "Riik": "Jaapan",
+    "Veeväljasurve": "~26 000–27 000 tonni (täislastis)",
+    "Relvastus": "2× Phalanx CIWS, 2× SeaRAM raketiheitjat, kuni 28 helikopterit / F-35B (katsetused lõpetatud 2024)",
+    "Klass": "Izumo klass"
+  }
+]
